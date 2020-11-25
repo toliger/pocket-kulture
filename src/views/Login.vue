@@ -6,21 +6,24 @@
 </template>
 
 <script>
-  import firebase from 'firebase';
+import firebase from "firebase";
 
-  export default {
-    name: 'login',
-    methods: {
-      socialLogin() {
-        const provider = new firebase.auth.GoogleAuthProvider();
+export default {
+  name: "login",
+  methods: {
+    socialLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
 
-        firebase.auth().signInWithPopup(provider).then(() => {
-          this.$router.replace('Home');
-        }).catch((err) => {
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then(() => {
+          this.$router.replace("Home");
+        })
+        .catch(err => {
           console.log(err.message);
         });
-      }
     }
   }
+};
 </script>
-
