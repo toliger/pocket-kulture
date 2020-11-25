@@ -1,8 +1,5 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" class="text-center">
-      <v-toolbar-title>Pocket Kulture</v-toolbar-title>
-    </v-app-bar>
     <v-main>
       <router-view></router-view>
     </v-main>
@@ -10,8 +7,8 @@
       <v-btn
         v-for="(item, idx) in navLinks"
         :key="idx"
-        :value="item.name"
         :to="{ name: item.name }"
+        exact
       >
         <span>{{ item.title }}</span>
 
@@ -28,11 +25,11 @@ export default {
   components: {},
 
   data: () => ({
-    currentPage: "home",
+    currentPage: "Feed",
     navLinks: [
       { title: "Mon Fil", icon: "mdi-menu", name: "Feed" },
-      { title: "Suggestions", icon: "mdi-lightbulb", name: "About" },
       { title: "Débats", icon: "mdi-message-processing", name: "Debates" },
+      { title: "Suggestions", icon: "mdi-lightbulb", name: "About" },
       { title: "Profil", icon: "mdi-account", name: "Profile" }
     ]
   })
