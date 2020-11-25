@@ -30,7 +30,6 @@ export default {
   data: () => ({
     currentPage: "home",
     navLinks: [
-      { title: "Accueil", icon: "mdi-home", name: "Home" },
       { title: "Mon Fil", icon: "mdi-menu", name: "Feed" },
       { title: "Suggestions", icon: "mdi-lightbulb", name: "About" },
       { title: "Débats", icon: "mdi-message-processing", name: "Debates" },
