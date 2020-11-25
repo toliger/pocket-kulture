@@ -28,6 +28,12 @@ const routes = [
       import(/* webpackChunkName: "debates" */ "../views/Feed.vue")
   },
   {
+    path: "/topic",
+    name: "Topic",
+    component: () =>
+      import(/* webpackChunkName: "debates" */ "../views/Topic.vue")
+  },
+  {
     path: "/profile",
     name: "Profile",
     component: () =>

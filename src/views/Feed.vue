@@ -35,7 +35,7 @@ export default {
   components: {},
   methods: {
     topic: function(topicId) {
-      this.$router.push({ name: "Login", params: { topicId } });
+      this.$router.push({ name: "Topic", params: { topicId } });
     }
   },
   data: () => ({
