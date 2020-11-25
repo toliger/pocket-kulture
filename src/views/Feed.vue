@@ -54,8 +54,8 @@ export default {
   components: {
   },
   methods: {
-    topic: function (plop) {
-      console.log(plop);
+    topic: function (topicId) {
+      this.$router.push({ name: 'Login', params: { topicId } });
     }
   },
   data: () => ({
