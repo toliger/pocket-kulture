@@ -1,9 +1,12 @@
 <template>
   <v-app>
+    <v-app-bar app color="primary" class="text-center">
+      <v-toolbar-title>Pocket Kulture</v-toolbar-title>
+    </v-app-bar>
     <v-main>
       <router-view></router-view>
     </v-main>
-    <v-bottom-navigation fixed hide-on-scroll color="primary">
+    <v-bottom-navigation mandatory fixed hide-on-scroll color="primary">
       <v-btn
         v-for="(item, idx) in navLinks"
         :key="idx"
