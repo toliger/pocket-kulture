@@ -28,10 +28,10 @@ export default {
     currentPage: "home",
     navLinks: [
       { title: "Accueil", icon: "mdi-home", name: "Home" },
-      { title: "Mon Fil", icon: "mdi-menu", name: "About" },
-      { title: "Suggestions", icon: "mdi-lightbulb", name: "sugg" },
+      { title: "Mon Fil", icon: "mdi-menu", name: "Feed" },
+      { title: "Suggestions", icon: "mdi-lightbulb", name: "About" },
       { title: "Débats", icon: "mdi-message-processing", name: "Debates" },
-      { title: "Profil", icon: "mdi-account", name: "profile" }
+      { title: "Profil", icon: "mdi-account", name: "Profile" }
     ]
   })
 };
