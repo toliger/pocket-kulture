@@ -18,7 +18,7 @@ export default {
         .auth()
         .signInWithPopup(provider)
         .then(() => {
-          this.$router.replace("Feed");
+          this.$router.replace("Profile");
         })
         .catch(err => {
           console.log(err.message);
