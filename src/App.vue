@@ -34,23 +34,38 @@
     </v-app-bar>
 
     <v-main>
-      <HelloWorld />
+      <router-view></router-view>
     </v-main>
+    <v-bottom-navigation fixed hide-on-scroll color="primary">
+      <v-btn
+        v-for="(item, idx) in navLinks"
+        :key="idx"
+        :value="item.name"
+        :to="{ name: item.name }"
+      >
+        <span>{{ item.title }}</span>
+
+        <v-icon>{{ item.icon }}</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
-
 export default {
   name: "App",
 
-  components: {
-    HelloWorld
-  },
+  components: {},
 
   data: () => ({
-    //
+    currentPage: "home",
+    navLinks: [
+      { title: "Accueil", icon: "mdi-home", name: "Home" },
+      { title: "Mon Fil", icon: "mdi-menu", name: "About" },
+      { title: "Suggestions", icon: "mdi-lightbulb", name: "sugg" },
+      { title: "Débats", icon: "mdi-message-processing", name: "Debates" },
+      { title: "Profil", icon: "mdi-account", name: "profile" }
+    ]
   })
 };
 </script>
