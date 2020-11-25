@@ -3,7 +3,13 @@
     <v-main>
       <router-view></router-view>
     </v-main>
-    <v-bottom-navigation mandatory fixed hide-on-scroll color="primary">
+    <v-bottom-navigation
+      mandatory
+      fixed
+      hide-on-scroll
+      color="primary"
+      id="main-nav"
+    >
       <v-btn
         v-for="(item, idx) in navLinks"
         :key="idx"
@@ -35,3 +41,8 @@ export default {
   })
 };
 </script>
+<style lang="scss" scoped>
+.v-item-group.v-bottom-navigation .v-btn.v-size--default {
+  height: inherit;
+}
+</style>
