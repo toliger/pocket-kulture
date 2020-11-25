@@ -13,8 +13,8 @@ const routes = [
     component: Home
   },
   {
-    path: '/login',
-    name: 'Login',
+    path: "/login",
+    name: "Login",
     component: Login
   },
   {
@@ -25,6 +25,18 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
+  },
+  {
+    path: "/feed",
+    name: "Feed",
+    component: () =>
+      import(/* webpackChunkName: "debates" */ "../views/Feed.vue")
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: () =>
+      import(/* webpackChunkName: "debates" */ "../views/Profile.vue")
   },
   {
     path: "/debates",
@@ -39,13 +51,13 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
+  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
 
   if (requiresAuth && !auth.currentUser) {
-    next('/login')
+    next("/login");
   } else {
-    next()
+    next();
   }
-})
+});
 
 export default router;
