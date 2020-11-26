@@ -40,12 +40,25 @@
           <v-col cols="12" class="text-left">
             <div class="text-h5">Centres d'intérêt</div>
             <v-autocomplete
-              v-model="selectedCategories"
+              v-model="placeholder.interests"
               :items="categories"
               chips
-              small-chips
+              deletable-chips
               multiple
-            ></v-autocomplete>
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  v-bind="data.attrs"
+                  :input-value="data.selected"
+                  close
+                  :color="data.item.color"
+                  @click="data.select"
+                  @click:close="remove(data.item)"
+                >
+                  {{ data.item.text }}
+                </v-chip>
+              </template>
+            </v-autocomplete>
           </v-col>
         </v-row>
 
@@ -104,13 +117,20 @@ export default {
       }
     });
   },
+  methods: {
+    remove(item) {
+      const index = this.placeholder.interests.indexOf(item.value);
+      if (index >= 0) this.placeholder.interests.splice(index, 1);
+    }
+  },
   data: () => ({
     placeholder: {
       lastname: "DUPONT",
       firstname: "Jean",
       age: "54",
       following: 18,
-      followers: 734
+      followers: 734,
+      interests: ["sciences", "nature", "food"]
     },
     profileLinks: [
       { title: "Historique", icon: "mdi-clock", name: "" },
@@ -122,14 +142,13 @@ export default {
     ],
     categories: [
       // text and value fields mandatory for autocomplete
-      { text: "Sciences", value: "sciences" },
-      { text: "Politique", value: "politics" },
-      { text: "Nature", value: "nature" },
-      { text: "Art", value: "art" },
-      { text: "Histoire", value: "history" },
-      { text: "Miam", value: "food" }
-    ],
-    selectedCategories: []
+      { text: "Sciences", value: "sciences", color: "primary" },
+      { text: "Politique", value: "politics", color: "primary" },
+      { text: "Nature", value: "nature", color: "secondary" },
+      { text: "Art", value: "art", color: "primary" },
+      { text: "Histoire", value: "history", color: "primary" },
+      { text: "Miam", value: "food", color: "secondary" }
+    ]
   })
 };
 </script>
