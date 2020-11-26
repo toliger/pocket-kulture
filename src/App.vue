@@ -4,6 +4,7 @@
       <router-view></router-view>
     </v-main>
     <v-bottom-navigation
+      app
       mandatory
       fixed
       hide-on-scroll
@@ -41,7 +42,7 @@ export default {
     navLinks: [
       { title: "Mon Fil", icon: "mdi-menu", name: "Feed" },
       { title: "Débats", icon: "mdi-message-processing", name: "Debates" },
-      { title: "Suggestions", icon: "mdi-lightbulb", name: "About" },
+      { title: "Suggestions", icon: "mdi-lightbulb", name: "Feed" },
       { title: "Profil", icon: "mdi-account", name: "Profile" }
     ]
   }),

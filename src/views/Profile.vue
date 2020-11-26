@@ -34,6 +34,48 @@
             </v-btn></v-col
           >
         </v-row>
+
+        <!-- interests -->
+        <v-row>
+          <v-col cols="12" class="text-left">
+            <div class="text-h5">Centres d'intérêt</div>
+            <v-autocomplete
+              v-model="selectedCategories"
+              :items="categories"
+              chips
+              small-chips
+              multiple
+            ></v-autocomplete>
+          </v-col>
+        </v-row>
+
+        <!-- menus  -->
+        <v-row>
+          <v-col cols="12">
+            <v-list>
+              <div
+                v-for="({ title, icon, name }, idx) in profileLinks"
+                :key="idx"
+              >
+                <v-divider></v-divider>
+                <v-list-item link :to="name">
+                  <v-list-item-icon>
+                    <v-icon>{{ icon }}</v-icon>
+                  </v-list-item-icon>
+
+                  <v-list-item-content>
+                    <v-list-item-title>{{ title }}</v-list-item-title>
+                  </v-list-item-content>
+
+                  <v-list-item-icon>
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-list-item-icon>
+                </v-list-item>
+              </div>
+              <v-divider></v-divider>
+            </v-list>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -69,7 +111,25 @@ export default {
       age: "54",
       following: 18,
       followers: 734
-    }
+    },
+    profileLinks: [
+      { title: "Historique", icon: "mdi-clock", name: "" },
+      { title: "Enregistrements", icon: "mdi-content-save", name: "" },
+      { title: "Compte Premium", icon: "mdi-currency-usd", name: "" },
+      { title: "Nous contacter", icon: "mdi-phone", name: "" },
+      { title: "FAQ", icon: "mdi-help", name: "" },
+      { title: "A propos", icon: "mdi-information", name: "About" }
+    ],
+    categories: [
+      // text and value fields mandatory for autocomplete
+      { text: "Sciences", value: "sciences" },
+      { text: "Politique", value: "politics" },
+      { text: "Nature", value: "nature" },
+      { text: "Art", value: "art" },
+      { text: "Histoire", value: "history" },
+      { text: "Miam", value: "food" }
+    ],
+    selectedCategories: []
   })
 };
 </script>
