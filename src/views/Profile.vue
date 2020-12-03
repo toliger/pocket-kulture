@@ -39,7 +39,7 @@
         <v-row>
           <v-col cols="12" class="text-left">
             <div class="text-h5">Centres d'intérêt</div>
-            <v-autocomplete
+            <v-select
               v-model="placeholder.interests"
               :items="categories"
               chips
@@ -58,7 +58,7 @@
                   {{ data.item.text }}
                 </v-chip>
               </template>
-            </v-autocomplete>
+            </v-select>
           </v-col>
         </v-row>
 

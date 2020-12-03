@@ -49,7 +49,7 @@
             <v-card
               class="mx-auto ml-10 mt-5"
               :key="idx"
-              v-for="(answer, idx) in answers"
+              v-for="(answer, idx) in $route.params.placeholder.answers"
             >
               <v-list-item three-line>
                 <v-list-item-avatar
@@ -92,16 +92,13 @@
 export default {
   name: "DebatePage",
   data: () => ({
-    subject: {
-      title: "Oui mon goûter",
-      author: "KFCH",
-      content: "RS4 gris gâteau ?"
-    },
-    answers: [
-      { author: "Jean Farid", content: "Le J c'est le S" },
-      { author: "MacManu", content: "Je sors le RS (une liasse épaisse)" }
-    ],
     typedContent: ""
-  })
+  }),
+  computed: {
+    subject() {
+      const { author, title, content } = this.$route.params.placeholder;
+      return { author, title, content };
+    }
+  }
 };
 </script>

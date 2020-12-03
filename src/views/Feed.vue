@@ -4,7 +4,7 @@
       <v-card max-width="400" class="mx-auto">
         <v-row dense>
           <v-col v-for="(item, i) in items" :key="i" cols="12">
-            <v-card v-on:click="topic(item.id)" :color="item.color" dark>
+            <v-card @click="topic(item.id)" :color="item.color" dark>
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div>
                   <v-card-title class="text-h6">{{ item.title }}</v-card-title>
