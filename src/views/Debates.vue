@@ -10,7 +10,7 @@
           <v-card-subtitle>{{ item.desc }}</v-card-subtitle>
 
           <v-card-actions>
-            <v-btn text> Listen Now </v-btn>
+            <v-btn text link :to="{ name: 'Debate' }"> Voir </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
