@@ -58,8 +58,12 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .v-item-group.v-bottom-navigation .v-btn.v-size--default {
   height: inherit;
+}
+.v-card__text,
+.v-card__title {
+  word-break: break-word !important;
 }
 </style>

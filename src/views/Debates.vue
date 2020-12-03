@@ -26,7 +26,8 @@ export default {
   data: () => ({
     placeholders: [
       {
-        title: "Soleil dans la bulle",
+        title:
+          "Jouer au Monopoly ou comment comprendre les stratégies d’investissements",
         desc: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Etiam venenatis nibh eget turpis bibendum laoreet. Nulla consequat nisl turpis, vitae gravida justo vulputate vel.
       Ut ultricies velit a eros maximus convallis. Fusce sed auctor lorem. Nam volutpat lobortis nisl eget sagittis.`

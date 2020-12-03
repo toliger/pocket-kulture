@@ -127,7 +127,7 @@ export default {
     placeholder: {
       lastname: "DUPONT",
       firstname: "Jean",
-      age: "54",
+      age: "25",
       following: 18,
       followers: 734,
       interests: ["sciences", "nature", "food"]
