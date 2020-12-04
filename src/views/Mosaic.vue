@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col v-for="(item, i) in items" :key="i" cols="2">
+    <v-col v-for="(item, i) in top" :key="i" cols="2">
       <v-card class="d-flex">
         <v-img
           :src="item.src"
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { topics } from "../firebase";
+import { topics, auth } from "../firebase";
 
 export default {
   name: "Mosaic",
@@ -38,12 +38,16 @@ export default {
     }
   },
   mounted() {
-    topics.get().then(data => {
-      this.top = data.docs.map(doc => {
-        let res = doc.data();
-        res.id = doc.id;
-        return res;
-      });
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        topics.where('tags', 'array-contains-any', user.interests).get().then(data => {
+          this.top = data.docs.map(doc => {
+            let res = doc.data();
+            res.id = doc.id;
+            return res;
+          });
+        });
+      }
     });
   },
   data: () => ({
