@@ -7,9 +7,7 @@
         <v-row align-content="center" justify="center">
           <v-col cols="6" md="6">
             <v-avatar class="profile" color="grey" size="164" tile>
-              <v-img
-                src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
-              ></v-img>
+            <v-gravatar :email="user.email" />
             </v-avatar>
           </v-col>
           <v-col cols="6" md="6">
