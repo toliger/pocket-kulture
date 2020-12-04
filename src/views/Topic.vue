@@ -1,6 +1,5 @@
 <template>
   <div class="topic">
-    <h1>{{ top.title }}</h1>
     <iframe
       style="width:100%;height:500px"
       sandbox="allow-same-origin allow-scripts"
@@ -27,12 +26,12 @@
                       <p>Auteur du post</p>
                     </div>
                     <v-list-item-title class="headline mb-1">{{
-                      topic.titre
+                      top.title
                     }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
                 <v-card-text>
-                  {{ topic.description }}
+                  {{ top.descr }}
                 </v-card-text>
 
                 <v-row justify="end">
@@ -59,12 +58,6 @@ export default {
       iframe: {
         src:
           "https://peer.tube/videos/embed/b59eda45-ec9c-4aaf-ad4c-ee45469bcafb"
-      },
-      topic: {
-        titre:
-          "Altercation entre Alkpote et le Roi Heenok dans ail et fines herbes",
-        description:
-          "Comment cette vidéo m'a aidé pour réviser mon bac de philosophie"
       },
       top: {}
     };
