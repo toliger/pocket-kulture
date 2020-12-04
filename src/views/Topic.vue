@@ -12,7 +12,6 @@
     <v-container>
       <v-row justify="center">
         <v-col cols="12">
-
           <v-row>
             <v-col cols="12">
               <v-card class="mx-auto mb-10">
@@ -25,7 +24,7 @@
                   <v-list-item-content>
                     <div class="overline mb-4">
                       <!-- {{ subject.author ? subject.author : "Anonymous" }} -->
-                      <p> Auteur du post </p>
+                      <p>Auteur du post</p>
                     </div>
                     <v-list-item-title class="headline mb-1">{{
                       topic.titre
@@ -46,12 +45,9 @@
               </v-card>
             </v-col>
           </v-row>
-
-
         </v-col>
       </v-row>
     </v-container>
-
   </div>
 </template>
 <script>
@@ -74,8 +70,10 @@ export default {
     };
   },
   mounted() {
-    topics.doc(this.$route.params.topicId)
-      .get().then(data => {
+    topics
+      .doc(this.$route.params.topicId)
+      .get()
+      .then(data => {
         this.top = data.data();
         this.top.id = data.id;
       });

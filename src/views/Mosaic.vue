@@ -11,13 +11,11 @@
           max-width="500"
         >
           <template v-slot:placeholder>
-            <v-row
-              fill-height
-              ma-0
-              align-center
-              justify-center
-            >
-              <v-progress-circular indeterminate color="grey ligthen-5"></v-progress-circular>
+            <v-row fill-height ma-0 align-center justify-center>
+              <v-progress-circular
+                indeterminate
+                color="grey ligthen-5"
+              ></v-progress-circular>
             </v-row>
           </template>
         </v-img>
@@ -41,13 +39,16 @@ export default {
     auth.onAuthStateChanged(user => {
       if (user) {
         if (user.interests)
-          topics.where('tags', 'array-contains-any', user.interests).get().then(data => {
-            this.top = data.docs.map(doc => {
-              let res = doc.data();
-              res.id = doc.id;
-              return res;
+          topics
+            .where("tags", "array-contains-any", user.interests)
+            .get()
+            .then(data => {
+              this.top = data.docs.map(doc => {
+                let res = doc.data();
+                res.id = doc.id;
+                return res;
+              });
             });
-          });
         else
           topics.get().then(data => {
             this.top = data.docs.map(doc => {
@@ -63,5 +64,4 @@ export default {
     top: {}
   })
 };
-
 </script>

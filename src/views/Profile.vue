@@ -139,6 +139,9 @@ export default {
           return this.userData.interests;
         }
         return [];
+      },
+      set(value) {
+        this.$store.dispatch("updateInterests", value);
       }
     }
   }
