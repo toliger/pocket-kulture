@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Login from "../views/Login.vue";
 import firebase from "firebase/app";
 import "firebase/auth";
+import store from "../store";
 
 Vue.use(VueRouter);
 
@@ -36,6 +37,13 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
+    beforeEnter: (to, from, next) => {
+      if (store.getters.isUserAuth) {
+        next();
+      } else {
+        next({ name: "Login" });
+      }
+    },
     component: () =>
       import(/* webpackChunkName: "debates" */ "../views/Profile.vue")
   },

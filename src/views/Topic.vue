@@ -1,10 +1,10 @@
 <template>
   <div class="topic">
-    <h1>{{ this.$route.params.topicId }}</h1>
+    <h1>{{ top.title }}</h1>
     <iframe
       style="width:100%;height:500px"
       sandbox="allow-same-origin allow-scripts"
-      :src="iframe.src"
+      :src="top.vsrc"
       frameborder="0"
       allowfullscreen
     ></iframe>
@@ -55,6 +55,8 @@
   </div>
 </template>
 <script>
+import { topics } from "../firebase";
+
 export default {
   data() {
     return {
@@ -67,8 +69,16 @@ export default {
           "Altercation entre Alkpote et le Roi Heenok dans ail et fines herbes",
         description:
           "Comment cette vidéo m'a aidé pour réviser mon bac de philosophie"
-      }
+      },
+      top: {}
     };
+  },
+  mounted() {
+    topics.doc(this.$route.params.topicId)
+      .get().then(data => {
+        this.top = data.data();
+        this.top.id = data.idres.id;
+      });
   }
 };
 </script>
