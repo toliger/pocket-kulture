@@ -14,8 +14,7 @@
           </v-col>
           <v-col cols="6" md="6">
             <v-row class="text-left">
-              <v-col cols="12">{{ placeholder.lastname }}</v-col>
-              <v-col cols="12">{{ placeholder.firstname }}</v-col>
+              <v-col cols="12">{{ user.displayName }}</v-col>
               <v-col cols="12">{{ placeholder.age }} ans</v-col>
             </v-row>
           </v-col>
@@ -96,6 +95,7 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/auth";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Profile",
@@ -149,6 +149,9 @@ export default {
       { text: "Histoire", value: "history", color: "primary" },
       { text: "Miam", value: "food", color: "secondary" }
     ]
-  })
+  }),
+  computed: {
+    ...mapGetters(["user"])
+  }
 };
 </script>

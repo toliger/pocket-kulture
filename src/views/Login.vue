@@ -6,24 +6,11 @@
 </template>
 
 <script>
-import firebase from "firebase";
-
+import { mapActions } from "vuex";
 export default {
   name: "login",
   methods: {
-    socialLogin() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-
-      firebase
-        .auth()
-        .signInWithPopup(provider)
-        .then(() => {
-          this.$router.replace("Profile");
-        })
-        .catch(err => {
-          console.log(err.message);
-        });
-    }
+    ...mapActions(["socialLogin"])
   }
 };
 </script>
