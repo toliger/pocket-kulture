@@ -23,7 +23,7 @@ export default {
     topics.doc(this.$route.params.topicId)
       .get().then(data => {
         this.top = data.data();
-        this.top.id = data.idres.id;
+        this.top.id = data.id;
       });
   }
 };
