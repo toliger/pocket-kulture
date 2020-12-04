@@ -25,7 +25,8 @@
 </template>
 
 <script>
-import { topics, auth } from "../firebase";
+import { mapGetters } from "vuex";
+import { topics } from "../firebase";
 
 export default {
   name: "Mosaic",
@@ -35,30 +36,37 @@ export default {
       this.$router.push({ name: "Topic", params: { topicId } });
     }
   },
-  mounted() {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        if (user.interests)
-          topics
-            .where("tags", "array-contains-any", user.interests)
-            .get()
-            .then(data => {
-              this.top = data.docs.map(doc => {
-                let res = doc.data();
-                res.id = doc.id;
-                return res;
-              });
-            });
-        else
-          topics.get().then(data => {
-            this.top = data.docs.map(doc => {
-              let res = doc.data();
-              res.id = doc.id;
-              return res;
-            });
-          });
+  computed: {
+    ...mapGetters(["user", "userData"]),
+    userInterests: {
+      get() {
+        if (this.userData) {
+          return this.userData.interests;
+        }
+        return [];
       }
-    });
+    }
+  },
+  mounted() {
+    if (this.userInterests == [])
+      topics
+        .where("tags", "array-contains-any", this.userInterests)
+        .get()
+        .then(data => {
+          this.top = data.docs.map(doc => {
+            let res = doc.data();
+            res.id = doc.id;
+            return res;
+          });
+        });
+    else
+      topics.get().then(data => {
+        this.top = data.docs.map(doc => {
+          let res = doc.data();
+          res.id = doc.id;
+          return res;
+        });
+      });
   },
   data: () => ({
     top: {}
