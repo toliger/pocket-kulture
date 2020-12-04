@@ -38,7 +38,11 @@ export default {
   },
   mounted() {
     topics.get().then(data => {
-      this.top = data.docs.map(doc => doc.data());
+      this.top = data.docs.map(doc => {
+        let res = doc.data();
+        res.id = doc.id;
+        return res;
+        });
     });
   },
   data: () => ({
