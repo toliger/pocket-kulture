@@ -40,13 +40,22 @@ export default {
   mounted() {
     auth.onAuthStateChanged(user => {
       if (user) {
-        topics.where('tags', 'array-contains-any', user.interests).get().then(data => {
-          this.top = data.docs.map(doc => {
-            let res = doc.data();
-            res.id = doc.id;
-            return res;
+        if (user.interests)
+          topics.where('tags', 'array-contains-any', user.interests).get().then(data => {
+            this.top = data.docs.map(doc => {
+              let res = doc.data();
+              res.id = doc.id;
+              return res;
+            });
           });
-        });
+        else
+          topics.get().then(data => {
+            this.top = data.docs.map(doc => {
+              let res = doc.data();
+              res.id = doc.id;
+              return res;
+            });
+          });
       }
     });
   },
