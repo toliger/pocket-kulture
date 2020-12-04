@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import { users, auth } from "../firebase";
 import { firebase } from "@firebase/app";
 import router from "../router";
+// import { cache } from "../plugins/cache";
 Vue.use(Vuex);
 
 const initState = () => {
@@ -20,6 +21,12 @@ export default new Vuex.Store({
     },
     setUserData(state, payload) {
       state.userData = payload;
+    },
+    setInterests(state, payload) {
+      if (!state.userData) {
+        return;
+      }
+      state.userData.interests = payload;
     }
   },
   actions: {
@@ -73,7 +80,7 @@ export default new Vuex.Store({
     async updateInterests({ commit, getters }, payload) {
       const ref = users.doc(getters.uid);
       await ref.update({ interests: payload });
-      commit("setUserData", { interests: payload, ...getters.userData });
+      commit("setInterests", payload);
     }
   },
   modules: {},
@@ -95,5 +102,6 @@ export default new Vuex.Store({
     },
     userData: state => state.userData,
     userInterests: state => state.userData.interests
-  }
+  },
+  plugins: []
 });

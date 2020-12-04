@@ -7,7 +7,7 @@
         <v-row align-content="center" justify="center">
           <v-col cols="6" md="6">
             <v-avatar class="profile" color="grey" size="164" tile>
-            <v-gravatar :email="user.email" />
+              <v-gravatar :email="user.email" />
             </v-avatar>
           </v-col>
           <v-col cols="6" md="6">
@@ -47,10 +47,8 @@
                 <v-chip
                   v-bind="data.attrs"
                   :input-value="data.selected"
-                  close
                   :color="data.item.color"
                   @click="data.select"
-                  @click:close="remove(data.item)"
                 >
                   {{ data.item.text }}
                 </v-chip>
@@ -96,12 +94,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Profile",
   mounted: () => {},
-  methods: {
-    remove(item) {
-      const index = this.placeholder.interests.indexOf(item.value);
-      if (index >= 0) this.placeholder.interests.splice(index, 1);
-    }
-  },
+  methods: {},
   data: () => ({
     selectedInterests: [],
     placeholder: {

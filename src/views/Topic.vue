@@ -1,6 +1,7 @@
 <template>
   <div class="topic">
     <iframe
+      v-if="top.vsrc"
       style="width:100%;height:500px"
       sandbox="allow-same-origin allow-scripts"
       :src="top.vsrc"
@@ -15,12 +16,8 @@
             <v-col cols="12">
               <v-card class="mx-auto mb-10">
                 <v-list-item three-line>
-                  <v-list-item-avatar
-                    tile
-                    size="80"
-                    color="grey"
-                  >
-                     <v-img :src="top.src"></v-img>
+                  <v-list-item-avatar tile size="80" color="grey">
+                    <v-img :src="top.src"></v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
                     <v-list-item-title class="headline mb-1">{{
@@ -35,7 +32,7 @@
                 <v-row justify="end">
                   <v-col md="auto">
                     <v-card-actions>
-                      <subscribe-button></subscribe-button>
+                      <!-- <subscribe-button></subscribe-button> -->
                     </v-card-actions>
                   </v-col>
                 </v-row>

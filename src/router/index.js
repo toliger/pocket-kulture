@@ -32,7 +32,7 @@ const routes = [
     path: "/topic",
     name: "Topic",
     component: () =>
-      import(/* webpackChunkName: "debates" */ "../views/Topic.vue")
+      import(/* webpackChunkName: "topic" */ "../views/Topic.vue")
   },
   {
     path: "/profile",
