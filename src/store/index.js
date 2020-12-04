@@ -58,19 +58,34 @@ export default new Vuex.Store({
           commit("setError", error.message);
         });
     },
-    async fetchUserData({ state, commit }) {
-      const query = await users.where("uid", "==", state.user.uid).get();
-      if (!query.empty) {
-        const snapshot = query.docs[0];
-        const data = snapshot.data();
-        commit("setUserData", data);
-      }
+    fetchUserData({ state, commit }) {
+      const ref = users.doc(state.user.uid);
+      ref.get().then(async snapshot => {
+        if (snapshot.exists) {
+          commit("setUserData", snapshot.data());
+        } else {
+          let defaultData = { interests: [] };
+          commit("setUserData", defaultData);
+          await ref.set(defaultData);
+        }
+      });
+    },
+    async updateInterests({ commit, getters }, payload) {
+      const ref = users.doc(getters.uid);
+      await ref.update({ interests: payload });
+      commit("setUserData", { interests: payload, ...getters.userData });
     }
   },
   modules: {},
   getters: {
     user(state) {
       return state.user;
+    },
+    uid: state => {
+      if (state.user) {
+        return state.user.uid;
+      }
+      return null;
     },
     isUserAuth(state) {
       return !!state.user;

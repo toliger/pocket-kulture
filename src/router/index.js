@@ -63,7 +63,7 @@ const routes = [
     path: "/mosaic",
     name: "Mosaic",
     component: () =>
-      import(/* webpackChunkName: "mosaic */ "../views/Mosaic.vue")
+      import(/* webpackChunkName: "mosaic" */ "../views/Mosaic.vue")
   }
 ];
 
