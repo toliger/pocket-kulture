@@ -2,18 +2,18 @@
   <v-row>
     <v-col v-for="(item, i) in items" :key="i" cols="2">
       <v-card class="d-flex">
-        <v-img 
-          :src="item.src" 
-          aspect-ratio="1" 
-          class="grey lighten-2" 
+        <v-img
+          :src="item.src"
+          aspect-ratio="1"
+          class="grey lighten-2"
           @click="topic(item.id)"
           max-height="300"
           max-width="500"
         >
           <template v-slot:placeholder>
-            <v-row 
-              fill-height 
-              ma-0 
+            <v-row
+              fill-height
+              ma-0
               align-center
               justify-center
             >
@@ -30,25 +30,25 @@
 import { topics } from "../firebase";
 
 export default {
-    name: "Mosaic",
-    components: {},
-    methods: {
-        topic: function(topicId) {
-            this.$router.push({ name: "Topic", params: { topicId } });
-        }
-    },
-    mounted() {
-      topics.get().then(data => {
-        this.top = data.docs.map(doc => {
-          let res = doc.data();
-          res.id = doc.id;
-          return res;
-        });
+  name: "Mosaic",
+  components: {},
+  methods: {
+    topic: function(topicId) {
+      this.$router.push({ name: "Topic", params: { topicId } });
+    }
+  },
+  mounted() {
+    topics.get().then(data => {
+      this.top = data.docs.map(doc => {
+        let res = doc.data();
+        res.id = doc.id;
+        return res;
       });
-    },
-    data: () => ({
-      top: {}
-    })
+    });
+  },
+  data: () => ({
+    top: {}
+  })
 };
 
 </script>
