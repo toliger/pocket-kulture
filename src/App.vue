@@ -42,7 +42,7 @@ export default {
     navLinks: [
       { title: "Mon Fil", icon: "mdi-menu", name: "Feed" },
       { title: "Débats", icon: "mdi-message-processing", name: "Debates" },
-      { title: "Suggestions", icon: "mdi-lightbulb", name: "Feed" },
+      { title: "Suggestions", icon: "mdi-lightbulb", name: "Mosaic" },
       { title: "Profil", icon: "mdi-account", name: "Profile" }
     ]
   }),

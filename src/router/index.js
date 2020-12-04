@@ -58,6 +58,12 @@ const routes = [
     name: "Debate",
     component: () =>
       import(/* webpackChunkName: "debates" */ "../views/DebatePage.vue")
+  },
+  {
+    path: "/mosaic",
+    name: "Mosaic",
+    component: () =>
+      import(/* webpackChunkName: "mosaic */ "../views/Mosaic.vue")
   }
 ];
 
