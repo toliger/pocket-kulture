@@ -39,7 +39,7 @@
           <v-col cols="12" class="text-left">
             <div class="text-h5">Centres d'intérêt</div>
             <v-select
-              v-model="placeholder.interests"
+              v-model="userInterests"
               :items="categories"
               chips
               deletable-chips
@@ -93,30 +93,11 @@
   </v-container>
 </template>
 <script>
-import firebase from "firebase/app";
-import "firebase/auth";
 import { mapGetters } from "vuex";
 
 export default {
   name: "Profile",
-  mounted: () => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        // User is signed in.
-        //var firstname = user.displayName;
-        //var email = user.email;
-        //var emailVerified = user.emailVerified;
-        //var photoURL = user.photoURL;
-        //var isAnonymous = user.isAnonymous;
-        //var uid = user.uid;
-        //var providerData = user.providerData;
-        // ...
-      } else {
-        // User is signed out.
-        // ...
-      }
-    });
-  },
+  mounted: () => {},
   methods: {
     remove(item) {
       const index = this.placeholder.interests.indexOf(item.value);
@@ -124,13 +105,13 @@ export default {
     }
   },
   data: () => ({
+    selectedInterests: [],
     placeholder: {
       lastname: "DUPONT",
       firstname: "Jean",
       age: "25",
       following: 18,
-      followers: 734,
-      interests: ["sciences", "nature", "food"]
+      followers: 734
     },
     profileLinks: [
       { title: "Historique", icon: "mdi-clock", name: "" },
@@ -151,7 +132,15 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user", "userData"]),
+    userInterests: {
+      get() {
+        if (this.userData) {
+          return this.userData.interests;
+        }
+        return [];
+      }
+    }
   }
 };
 </script>

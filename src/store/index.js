@@ -1,11 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import firebase from "firebase/app";
+import { users, auth } from "../firebase";
+import { firebase } from "@firebase/app";
 import router from "../router";
 Vue.use(Vuex);
 
 const initState = () => {
-  return { user: null, error: null };
+  return { user: null, userData: null, error: null };
 };
 
 export default new Vuex.Store({
@@ -16,12 +17,14 @@ export default new Vuex.Store({
     },
     setError(state, payload) {
       state.error = payload;
+    },
+    setUserData(state, payload) {
+      state.userData = payload;
     }
   },
   actions: {
     signUpAction({ commit }, payload) {
-      firebase
-        .auth()
+      auth
         .createUserWithEmailAndPassword(payload.email, payload.password)
         .then(response => {
           commit("setUser", response.user);
@@ -30,30 +33,38 @@ export default new Vuex.Store({
           commit("setError", error.message);
         });
     },
-    socialLogin({ commit }) {
+    socialLogin({ dispatch, commit }) {
       const provider = new firebase.auth.GoogleAuthProvider();
 
-      firebase
-        .auth()
+      auth
         .signInWithPopup(provider)
         .then(res => {
           commit("setUser", res.user);
+          dispatch("fetchUserData");
           router.replace("Profile");
         })
         .catch(err => {
           console.log(err.message);
         });
     },
-    signInAction({ commit }, payload) {
-      return firebase
-        .auth()
+    signInAction({ dispatch, commit }, payload) {
+      return auth
         .signInWithEmailAndPassword(payload.email, payload.password)
         .then(response => {
           commit("setUser", response.user);
+          dispatch("fetchUserData");
         })
         .catch(error => {
           commit("setError", error.message);
         });
+    },
+    async fetchUserData({ state, commit }) {
+      const query = await users.where("uid", "==", state.user.uid).get();
+      if (!query.empty) {
+        const snapshot = query.docs[0];
+        const data = snapshot.data();
+        commit("setUserData", data);
+      }
     }
   },
   modules: {},
@@ -66,6 +77,8 @@ export default new Vuex.Store({
     },
     error(state) {
       return state.error;
-    }
+    },
+    userData: state => state.userData,
+    userInterests: state => state.userData.interests
   }
 });
