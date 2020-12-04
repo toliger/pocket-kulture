@@ -3,8 +3,15 @@ import Vuex from "vuex";
 import { users, auth } from "../firebase";
 import { firebase } from "@firebase/app";
 import router from "../router";
-// import { cache } from "../plugins/cache";
+import VuexPersistence from "vuex-persist";
+import { forage } from "../localStore";
+
 Vue.use(Vuex);
+
+const vuexLocal = new VuexPersistence({
+  storage: forage,
+  asyncStorage: true
+});
 
 const initState = () => {
   return { user: null, userData: null, error: null };
@@ -103,5 +110,5 @@ export default new Vuex.Store({
     userData: state => state.userData,
     userInterests: state => state.userData.interests
   },
-  plugins: []
+  plugins: [vuexLocal.plugin]
 });

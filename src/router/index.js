@@ -71,9 +71,10 @@ const router = new VueRouter({
   routes
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
-
+  await store.restored;
+  console.log(store.restored);
   if (requiresAuth && !firebase.auth().currentUser) {
     next("/login");
   } else {
