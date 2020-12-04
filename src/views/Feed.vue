@@ -42,11 +42,11 @@ export default {
         let res = doc.data();
         res.id = doc.id;
         return res;
-        });
+      });
     });
   },
   data: () => ({
-    top: [],
+    top: []
   })
 };
 </script>

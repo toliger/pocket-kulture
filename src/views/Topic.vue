@@ -16,14 +16,15 @@ import { topics } from "../firebase";
 export default {
   data() {
     return {
-      top: {},
+      top: {}
     };
   },
   mounted() {
-    topics.doc(this.$route.params.topicId).get().then(data => {
-      this.top = data.data();
-      this.top.id = data.idres.id;
-    });
+    topics.doc(this.$route.params.topicId)
+      .get().then(data => {
+        this.top = data.data();
+        this.top.id = data.idres.id;
+      });
   }
 };
 </script>
