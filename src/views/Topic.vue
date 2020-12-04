@@ -19,12 +19,10 @@
                     tile
                     size="80"
                     color="grey"
-                  ></v-list-item-avatar>
+                  >
+                     <v-img :src="top.src"></v-img>
+                  </v-list-item-avatar>
                   <v-list-item-content>
-                    <div class="overline mb-4">
-                      <!-- {{ subject.author ? subject.author : "Anonymous" }} -->
-                      <p>Auteur du post</p>
-                    </div>
                     <v-list-item-title class="headline mb-1">{{
                       top.title
                     }}</v-list-item-title>
