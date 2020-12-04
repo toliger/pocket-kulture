@@ -31,14 +31,6 @@
                 <v-card-text>
                   {{ top.descr }}
                 </v-card-text>
-
-                <v-row justify="end">
-                  <v-col md="auto">
-                    <v-card-actions>
-                      <subscribe-button></subscribe-button>
-                    </v-card-actions>
-                  </v-col>
-                </v-row>
               </v-card>
             </v-col>
           </v-row>
