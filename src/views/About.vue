@@ -23,8 +23,7 @@ export default {
   }),
   methods: {
     async triggerPushNotification() {
-      const publicVapidKey =
-        "BLcT9G1Uw20uKfxyKD5H3DwVUP8_a6weZ5QZuqfRvM2-Hisa0bBDgn8ho2zMHMJ53FYouWx7jUjmtM4vglV9epc";
+      const publicVapidKey = process.env.VUE_APP_VAPID_KEY;
       if ("serviceWorker" in navigator) {
         const register = await navigator.serviceWorker.ready;
 
@@ -33,7 +32,7 @@ export default {
           applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
         });
 
-        await fetch("https://pocket-kulture.fr/api/subscribe", {
+        await fetch(`${process.env.VUE_APP_PUSH_ENDPOINT}/subscribe`, {
           method: "POST",
           body: JSON.stringify(subscription),
           headers: {
@@ -51,7 +50,7 @@ export default {
       }
     },
     async testPush() {
-      await fetch("https://pocket-kulture.fr/api/push", {
+      await fetch(`${process.env.VUE_APP_PUSH_ENDPOINT}/push`, {
         method: "POST",
         body: JSON.stringify({ uid: this.uid }),
         headers: {
@@ -60,7 +59,6 @@ export default {
       });
     },
     async subStatus() {
-      console.log("plops");
       if (!("Notification" in window && navigator.serviceWorker)) {
         return "Not available";
       }
