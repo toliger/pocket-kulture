@@ -81,7 +81,7 @@ export default new Vuex.Store({
         if (snapshot.exists) {
           commit("setUserData", snapshot.data());
         } else {
-          let defaultData = { interests: [] };
+          let defaultData = { interests: [], push: null };
           commit("setUserData", defaultData);
           await ref.set(defaultData);
         }

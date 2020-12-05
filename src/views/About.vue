@@ -2,83 +2,83 @@
   <div class="about">
     <h1>This is an about page</h1>
     <router-link to="Login">Login</router-link>
-    <v-btn @click="getMessagingToken">Notifications</v-btn>
+    <v-btn @click="triggerPushNotification"> Sub to notifications</v-btn>
+    <v-btn @click="testPush">Test Push</v-btn>
+    <p>Sub status: {{ status }}</p>
   </div>
 </template>
 <script>
-import { messaging } from "@/firebase";
 import { mapGetters } from "vuex";
+import { urlBase64ToUint8Array } from "@/helpers";
+import { users } from "@/firebase";
 
 export default {
   name: "About",
+  async mounted() {
+    console.log("plop");
+    this.status = await this.subStatus();
+  },
+  data: () => ({
+    status: "..."
+  }),
   methods: {
-    getMessagingToken() {
-      messaging
-        .getToken()
-        .then(async token => {
-          if (token) {
-            const currentMessageToken = window.localStorage.getItem(
-              "messagingToken"
-            );
-            console.log("token will be updated", currentMessageToken != token);
+    async triggerPushNotification() {
+      const publicVapidKey =
+        "BLcT9G1Uw20uKfxyKD5H3DwVUP8_a6weZ5QZuqfRvM2-Hisa0bBDgn8ho2zMHMJ53FYouWx7jUjmtM4vglV9epc";
+      if ("serviceWorker" in navigator) {
+        const register = await navigator.serviceWorker.ready;
 
-            if (currentMessageToken != token) {
-              await this.saveToken(token);
-            }
-          } else {
-            console.log(
-              "No Instance ID token available. Request permission to generate one."
-            );
-            this.notificationsPermisionRequest();
+        const subscription = await register.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+        });
+
+        await fetch("https://pocket-kulture.fr/api/subscribe", {
+          method: "POST",
+          body: JSON.stringify(subscription),
+          headers: {
+            "Content-Type": "application/json"
           }
-        })
-        .catch(function(err) {
-          console.log("An error occurred while retrieving token. ", err);
         });
-    },
-    notificationsPermisionRequest() {
-      messaging
-        .requestPermission()
-        .then(() => {
-          this.getMessagingToken();
-        })
-        .catch(err => {
-          console.log("Unable to get permission to notify.", err);
-        });
-    },
-    listenTokenRefresh() {
-      const currentMessageToken = window.localStorage.getItem("messagingToken");
-      console.log("currentMessageToken", currentMessageToken);
-      if (currentMessageToken) {
-        messaging.onTokenRefresh(function() {
-          messaging
-            .getToken()
-            .then(function(token) {
-              this.saveToken(token);
-            })
-            .catch(function(err) {
-              console.error("Unable to retrieve refreshed token ", err);
-            });
-        });
+
+        if (this.uid) {
+          await users
+            .doc(this.uid)
+            .update({ push: JSON.stringify(subscription) });
+        }
+      } else {
+        console.error("Service workers are not supported in this browser");
       }
     },
-    saveToken(token) {
-      console.log("tokens", token);
-      fetch(
-        `http://localhost:5001/pocket-kulture/us-central1/GeneralSubscription`,
-        { method: "post", body: token }
-      )
-        .then(response => {
-          window.localStorage.setItem("messagingToken", token);
-          console.log(response);
-        })
-        .catch(err => {
-          console.error(err);
-        });
+    async testPush() {
+      await fetch("https://pocket-kulture.fr/api/push", {
+        method: "POST",
+        body: JSON.stringify({ uid: this.uid }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+    },
+    async subStatus() {
+      console.log("plops");
+      if (!("Notification" in window && navigator.serviceWorker)) {
+        return "Not available";
+      }
+      let permission = await Notification.requestPermission();
+      if (permission != "granted") {
+        return "Not granted";
+      }
+      let sub = await navigator.serviceWorker.ready.then(reg => {
+        return reg.pushManager.getSubscription();
+      });
+      if (sub) {
+        return "Subbed";
+      }
+      return "Not subbed";
     }
   },
   computed: {
-    ...mapGetters["token"]
+    ...mapGetters(["token", "uid"])
   }
 };
 </script>
