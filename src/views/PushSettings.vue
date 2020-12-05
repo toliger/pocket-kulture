@@ -92,8 +92,7 @@ export default {
       }
     },
     unsubscribe() {
-      navigator.serviceWorker
-        .ready()
+      navigator.serviceWorker.ready
         .then(reg => reg.pushManager.getSubscription())
         .then(async sub => {
           try {
