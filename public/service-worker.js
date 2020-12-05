@@ -1,3 +1,41 @@
+/* eslint-disable */
+importScripts("https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js");
+importScripts("https://www.gstatic.com/firebasejs/8.1.2/firebase-messaging.js");
+
+workbox.core.setCacheNameDetails({prefix: "pocket-kulture"});
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+self.__precacheManifest = [].concat(self.__precacheManifest || []);
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+
+firebase.initializeApp({
+  apiKey: "AIzaSyCkx9RJI1ZVzP2pZm9A1p0H_qUGV2f2lhQ",
+  authDomain: "pocket-kulture.firebaseapp.com",
+  databaseURL: "https://pocket-kulture.firebaseio.com",
+  projectId: "pocket-kulture",
+  storageBucket: "pocket-kulture.appspot.com",
+  messagingSenderId: "782087725688",
+  appId: "1:782087725688:web:ab0bc2582f99a16c65c38d"
+});
+
+const messaging = firebase.messaging();
+
+messaging.setBackgroundMessageHandler(function(payload) {
+    console.log('[service-worker.js] Received background message ', payload);
+    // Customize notification here
+    const notificationTitle = 'Background Message Title';
+    const notificationOptions = {
+      body: 'Background Message body.',
+      icon: '/firebase-logo.png'
+    };
+  
+    return self.registration.showNotification(notificationTitle,
+        notificationOptions);
+  });
 // const API_ENDPOINT = "https://pwapi.rahveiz.fr";
 // // const API_ENDPOINT = 'http://192.168.0.177:8080'
 // // const API_ENDPOINT = 'http://192.168.21.102:8080'

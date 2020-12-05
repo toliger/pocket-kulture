@@ -3,15 +3,15 @@ import Vuex from "vuex";
 import { users, auth } from "../firebase";
 import { firebase } from "@firebase/app";
 import router from "../router";
-import VuexPersistence from "vuex-persist";
-import { forage } from "../localStore";
+// import VuexPersistence from "vuex-persist";
+// import { forage } from "../localStore";
 
 Vue.use(Vuex);
 
-const vuexLocal = new VuexPersistence({
-  storage: forage,
-  asyncStorage: true
-});
+// const vuexLocal = new VuexPersistence({
+//   storage: forage,
+//   asyncStorage: true
+// });
 
 const initState = () => {
   return { user: null, userData: null, error: null };
@@ -34,6 +34,9 @@ export default new Vuex.Store({
         return;
       }
       state.userData.interests = payload;
+    },
+    setToken(state, token) {
+      state.token = token;
     }
   },
   actions: {
@@ -55,7 +58,7 @@ export default new Vuex.Store({
         .then(res => {
           commit("setUser", res.user);
           dispatch("fetchUserData");
-          router.replace("Profile");
+          router.push("Profile");
         })
         .catch(err => {
           console.log(err.message);
@@ -88,6 +91,10 @@ export default new Vuex.Store({
       const ref = users.doc(getters.uid);
       await ref.update({ interests: payload });
       commit("setInterests", payload);
+    },
+    async setPushToken({ commit }, token) {
+      await localStorage.setItem("pushToken", token);
+      commit("setToken", token);
     }
   },
   modules: {},
@@ -108,7 +115,8 @@ export default new Vuex.Store({
       return state.error;
     },
     userData: state => state.userData,
-    userInterests: state => state.userData.interests
-  },
-  plugins: [vuexLocal.plugin]
+    userInterests: state => state.userData.interests,
+    token: state => state.token
+  }
+  // plugins: [vuexLocal.plugin]
 });

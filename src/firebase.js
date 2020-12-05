@@ -1,6 +1,7 @@
 import { firebase } from "@firebase/app";
 import "@firebase/app";
 import "@firebase/auth";
+import "@firebase/messaging";
 import "@firebase/firestore";
 
 const firebaseConfig = {
@@ -18,7 +19,13 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
+const messaging = firebase.messaging();
+
+db.enablePersistence().catch(err => {
+  console.error(err);
+});
+
 const topics = db.collection("topics");
 const users = db.collection("users");
 
-export { db, auth, topics, users };
+export { db, auth, topics, users, messaging };
