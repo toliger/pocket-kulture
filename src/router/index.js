@@ -37,13 +37,7 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
-    beforeEnter: (to, from, next) => {
-      if (store.getters.isUserAuth) {
-        next();
-      } else {
-        next({ name: "Login" });
-      }
-    },
+    meta: { requiresAuth: true },
     component: () =>
       import(/* webpackChunkName: "debates" */ "../views/Profile.vue")
   },
@@ -68,6 +62,7 @@ const routes = [
   {
     path: "/push",
     name: "PushSettings",
+    meta: { requiresAuth: true },
     component: () =>
       import(/* webpackChunkName: "push" */ "../views/PushSettings.vue")
   }
