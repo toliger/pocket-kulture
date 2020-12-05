@@ -37,17 +37,45 @@ app.get("/", async (req, res) => {
   res.send("UP");
 });
 
-const doc = db.collection("users").doc("y6CpU0ak85WYRMeEDMDfpjp9jKJ3");
+// Listen on new topic
 
-doc.onSnapshot(
-  docSnapshot => {
-    console.log(`Received doc snapshot: ${docSnapshot}`);
-    console.log(docSnapshot.data());
-  },
-  err => {
-    console.log(`Encountered error: ${err}`);
-  }
-);
+const topics = db.collection("topics");
+topics.onSnapshot(querySnapshot => {
+  querySnapshot.docChanges().forEach(change => {
+    if (change.type === "added" || change.type === "modified") {
+      const newTopic = change.doc.data();
+      console.log(
+        `Topic "${newTopic.title}" ${change.type} by ${newTopic.artist}`
+      );
+      if (!newTopic.tags) {
+        return;
+      }
+      const usersToNotify = db
+        .collection("users")
+        .where("interests", "array-contains-any", newTopic.tags);
+      usersToNotify.get().then(snapshot => {
+        if (!snapshot.empty) {
+          snapshot.forEach(doc => {
+            if (change.type === "modified" && doc.get("notify_on_mod")) {
+              console.log("Shoud notify " + doc.id);
+              const sub = doc.get("push");
+              if (sub) {
+                webPush
+                  .sendNotification(
+                    JSON.parse(sub),
+                    JSON.stringify({
+                      title: "Topic modified !"
+                    })
+                  )
+                  .catch(error => console.error(error));
+              }
+            }
+          });
+        }
+      });
+    }
+  });
+});
 
 app.post("/subscribe", async (req, res) => {
   const subscription = req.body;
