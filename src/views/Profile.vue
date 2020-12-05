@@ -66,7 +66,7 @@
                 :key="idx"
               >
                 <v-divider></v-divider>
-                <v-list-item link :to="name">
+                <v-list-item link :to="{ name }">
                   <v-list-item-icon>
                     <v-icon>{{ icon }}</v-icon>
                   </v-list-item-icon>
@@ -105,11 +105,16 @@ export default {
       followers: 734
     },
     profileLinks: [
-      { title: "Historique", icon: "mdi-clock", name: "" },
-      { title: "Enregistrements", icon: "mdi-content-save", name: "" },
-      { title: "Compte Premium", icon: "mdi-currency-usd", name: "" },
-      { title: "Nous contacter", icon: "mdi-phone", name: "" },
-      { title: "FAQ", icon: "mdi-help", name: "" },
+      { title: "Historique", icon: "mdi-clock", name: "Profile" },
+      { title: "Enregistrements", icon: "mdi-content-save", name: "Profile" },
+      { title: "Compte Premium", icon: "mdi-currency-usd", name: "Profile" },
+      { title: "Nous contacter", icon: "mdi-phone", name: "Profile" },
+      { title: "FAQ", icon: "mdi-help", name: "Profile" },
+      {
+        title: "Notifications",
+        icon: "mdi-cellphone-cog",
+        name: "PushSettings"
+      },
       { title: "A propos", icon: "mdi-information", name: "About" }
     ],
     categories: [

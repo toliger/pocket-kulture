@@ -76,7 +76,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["token", "uid"])
+    ...mapGetters(["uid"])
   }
 };
 </script>

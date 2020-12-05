@@ -64,6 +64,12 @@ const routes = [
     name: "Mosaic",
     component: () =>
       import(/* webpackChunkName: "mosaic" */ "../views/Mosaic.vue")
+  },
+  {
+    path: "/push",
+    name: "PushSettings",
+    component: () =>
+      import(/* webpackChunkName: "push" */ "../views/PushSettings.vue")
   }
 ];
 

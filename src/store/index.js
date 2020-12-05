@@ -34,9 +34,6 @@ export default new Vuex.Store({
         return;
       }
       state.userData.interests = payload;
-    },
-    setToken(state, token) {
-      state.token = token;
     }
   },
   actions: {
@@ -81,7 +78,12 @@ export default new Vuex.Store({
         if (snapshot.exists) {
           commit("setUserData", snapshot.data());
         } else {
-          let defaultData = { interests: [], push: null };
+          let defaultData = {
+            interests: [],
+            push: null,
+            notify_on_mod: false,
+            notify_on_add: false
+          };
           commit("setUserData", defaultData);
           await ref.set(defaultData);
         }
@@ -92,9 +94,24 @@ export default new Vuex.Store({
       await ref.update({ interests: payload });
       commit("setInterests", payload);
     },
-    async setPushToken({ commit }, token) {
-      await localStorage.setItem("pushToken", token);
-      commit("setToken", token);
+    async updateNotify({ commit, getters }, payload) {
+      const ref = users.doc(getters.uid);
+      let currentData = getters.userData;
+      switch (payload) {
+        case "add": {
+          await ref.update({ notify_on_add: !currentData.notify_on_add });
+          currentData.notify_on_add = !currentData.notify_on_add;
+          break;
+        }
+        case "mod": {
+          await ref.update({ notify_on_mod: !currentData.notify_on_mod });
+          currentData.notify_on_mod = !currentData.notify_on_mod;
+          break;
+        }
+        default:
+          break;
+      }
+      commit("setUserData", currentData);
     }
   },
   modules: {},
@@ -115,8 +132,7 @@ export default new Vuex.Store({
       return state.error;
     },
     userData: state => state.userData,
-    userInterests: state => state.userData.interests,
-    token: state => state.token
+    userInterests: state => state.userData.interests
   }
   // plugins: [vuexLocal.plugin]
 });

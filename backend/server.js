@@ -70,24 +70,25 @@ topics.onSnapshot(querySnapshot => {
                   .catch(error => console.error(error));
               }
             }
+            if (change.type === "added" && doc.get("notify_on_add")) {
+              console.log("Shoud notify " + doc.id);
+              const sub = doc.get("push");
+              if (sub) {
+                webPush
+                  .sendNotification(
+                    JSON.parse(sub),
+                    JSON.stringify({
+                      title: "Topic added !"
+                    })
+                  )
+                  .catch(error => console.error(error));
+              }
+            }
           });
         }
       });
     }
   });
-});
-
-app.post("/subscribe", async (req, res) => {
-  const subscription = req.body;
-  res.status(201).json({});
-
-  const payload = JSON.stringify({
-    title: "Push notifications with Service Workers"
-  });
-
-  webPush
-    .sendNotification(subscription, payload)
-    .catch(error => console.error(error));
 });
 
 app.post("/push", async (req, res) => {
