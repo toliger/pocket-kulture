@@ -39,8 +39,10 @@ export default new Vuex.Store({
   actions: {
     initUser({ commit, dispatch }) {
       firebase.getCurrentUser().then(u => {
-        commit("setUser", u);
-        dispatch("fetchUserData");
+        if (u) {
+          commit("setUser", u);
+          dispatch("fetchUserData");
+        }
       });
     },
     signUpAction({ commit }, payload) {
