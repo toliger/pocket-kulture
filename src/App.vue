@@ -32,8 +32,6 @@
 export default {
   name: "App",
   created() {
-    let loader = document.querySelector(".loading");
-    loader.parentNode.removeChild(loader);
     this.$store.dispatch("initUser");
   },
   methods: {
