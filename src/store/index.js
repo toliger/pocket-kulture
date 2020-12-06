@@ -37,6 +37,12 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    initUser({ commit, dispatch }) {
+      firebase.getCurrentUser().then(u => {
+        commit("setUser", u);
+        dispatch("fetchUserData");
+      });
+    },
     signUpAction({ commit }, payload) {
       auth
         .createUserWithEmailAndPassword(payload.email, payload.password)

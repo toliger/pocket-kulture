@@ -31,8 +31,11 @@
 <script>
 export default {
   name: "App",
-
-  components: {},
+  created() {
+    let loader = document.querySelector(".loading");
+    loader.parentNode.removeChild(loader);
+    this.$store.dispatch("initUser");
+  },
   methods: {
     goBack() {
       return this.$router.go(-1);
