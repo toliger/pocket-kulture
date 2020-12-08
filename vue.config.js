@@ -13,36 +13,36 @@ module.exports = {
       shotName: "Pocket-Kulture",
       icons: [
         {
-          src: "./img/icons/PK_120.png",
+          src: "./img/icons/pk/PK_120.png",
           sizes: "120x120",
           type: "image/png"
         },
         {
-          src: "./img/icons/PK_128.png",
+          src: "./img/icons/pk/PK_128.png",
           sizes: "128x128",
           type: "image/png"
         },
         {
-          src: "./img/icons/PK_180.png",
+          src: "./img/icons/pk/PK_180.png",
           sizes: "180x180",
           type: "image/png"
         },
         {
-          src: "./img/icons/PK_192.png",
+          src: "./img/icons/pk/PK_192.png",
           sizes: "192x192",
           type: "image/png"
         },
         {
-          src: "./img/icons/PK_512.png",
+          src: "./img/icons/pk/PK_512.png",
           sizes: "512x512",
           type: "image/png"
         }
       ]
     },
     iconPaths: {
-      appleTouchIcon: "img/icons/PK_180.png",
-      favicon16: "./img/icons/PK_16.png",
-      favicon32: "./img/icons/PK_32.png"
+      appleTouchIcon: "img/icons/pk/PK_180.png",
+      favicon16: "./img/icons/pk/PK_16.png",
+      favicon32: "./img/icons/pk/PK_32.png"
     }
   }
 };
