@@ -9,8 +9,8 @@ module.exports = {
     appleMobileWebAppStatusBarStyle: "white",
     themeColor: "#FFFFFF",
     manifestOptions: {
-      name: "Pocket-Kulture",
-      shotName: "Pocket-Kulture",
+      name: "Pocket Kulture",
+      shotName: "Pocket Kulture",
       icons: [
         {
           src: "./img/icons/pk/PK_120.png",
