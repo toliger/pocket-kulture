@@ -68,6 +68,28 @@
   50%  {transform:translateX(50px);}
   100% {transform:translateX(-50px);}
 }
+#update-banner {
+  position: fixed;
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  bottom: 0;
+  height: 20vh;
+  width: 100vw;
+  z-index: 1000;
+  background-color: whitesmoke;
+  border-top: 1px solid black;
+  padding: 2em;
+}
+#update-button {
+  margin: 1em;
+  background-color: orange;
+}
+#close-button {
+  margin: 1em;
+  background-color: red;
+  color: white;
+}
+
   </style>
   <body>
     <noscript>
@@ -79,5 +101,10 @@
       </div>
     </div>
     <!-- built files will be auto injected -->
+    <div id="update-banner" class="banner" style="display: none;">
+      <p>Nouvelle version de l'application disponible !</p>
+      <button id="update-button" class="v-btn v-btn--contained v-size--default">Recharger</button>
+      <button id="close-button" class="v-btn v-btn--contained v-size--default">Plus tard</button>
+    </div>
   </body>
 </html>
