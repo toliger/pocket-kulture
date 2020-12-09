@@ -42,10 +42,6 @@ import { topics } from "../firebase";
 export default {
   data() {
     return {
-      iframe: {
-        src:
-          "https://peer.tube/videos/embed/b59eda45-ec9c-4aaf-ad4c-ee45469bcafb"
-      },
       top: {}
     };
   },
