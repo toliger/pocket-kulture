@@ -13,10 +13,12 @@
                   tile
                   size="80"
                   color="grey"
-                ></v-list-item-avatar>
+                >
+                  <v-gravatar :email="author.email" />
+                </v-list-item-avatar>
                 <v-list-item-content>
                   <div class="overline mb-4">
-                    {{ forum.author ? forum.author : "Anonymous" }}
+                    {{ author.displayName }}
                   </div>
                   <v-list-item-title class="headline mb-1">{{
                     forum.title
@@ -56,10 +58,12 @@
                   tile
                   size="60"
                   color="grey"
-                ></v-list-item-avatar>
+                >
+                  <v-gravatar :email="answer.author.email" />
+                </v-list-item-avatar>
                 <v-list-item-content>
                   <div class="overline mb-4">
-                    {{ answer.author ? answer.author : "Anonymous" }}
+                    {{ answer.author.displayName }}
                   </div>
                 </v-list-item-content>
               </v-list-item>
@@ -89,12 +93,13 @@
   </v-container>
 </template>
 <script>
-import { forums } from "../firebase";
+import { forums, users } from "../firebase";
 
 export default {
   name: "DebatePage",
   data: () => ({
-    forum: {}
+    forum: {},
+    author: { displayName: "Anonymous", email: "example@example.com" }
   }),
   mounted() {
     forums
@@ -103,6 +108,25 @@ export default {
       .then(data => {
         this.forum = data.data();
         this.forum.id = data.id;
+        
+        users
+          .doc(this.forum.author)
+          .get()
+          .then(data => {
+            this.author = data.data();
+            this.author.id = data.id;
+          });
+
+        this.forum.answers.map(data => {
+          users
+            .doc(data.author)
+            .get()
+            .then((a) => {
+              data.author = a.data();
+              data.author.id = a.id;
+            });
+        
+        });
       });
   }
 };
