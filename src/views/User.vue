@@ -13,14 +13,25 @@
             <v-row class="text-left">
               <v-col cols="12">{{ targetUser.displayName }}</v-col>
               <v-col cols="12">25 ans</v-col>
-              <v-col cols="12"
-                ><v-btn
+              <v-col cols="12" v-if="user.uid != $route.params.uid"
+                >
+                <v-btn
                   color="primary"
                   dark
-                  v-if="user.uid != $route.params.uid"
+                  v-if="targetUser.followers && targetUser.followers.indexOf(user.uid) === -1"
+                  v-on:click="follow"
                 >
                   S'abonner
-                </v-btn></v-col
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  dark
+                  v-else
+                  v-on:click="unfollow"
+                >
+                  Se désabonner
+                </v-btn>
+                </v-col
               >
             </v-row>
           </v-col>
@@ -53,6 +64,31 @@ export default {
   data: () => ({
     targetUser: {}
   }),
+  methods: {
+    follow() {
+      if (this.targetUser.followers.indexOf(this.user.uid) === -1) {
+        this.targetUser.followers.push(this.user.uid);
+      }
+
+      users
+        .doc(this.$route.params.uid)
+        .update({ followers: this.targetUser.followers })
+        .then(() => { });
+    },
+    unfollow() {
+      console.log(this.targetUser.followers);
+      const index = this.targetUser.followers.indexOf(this.user.uid);
+      if (index > -1) {
+        this.targetUser.followers.splice(index, 1);
+      }
+      console.log(this.targetUser.followers);
+
+      users
+        .doc(this.$route.params.uid)
+        .update({ followers: this.targetUser.followers })
+        .then(() => { });
+    }
+  },
   mounted() {
     users
       .doc(this.$route.params.uid)
