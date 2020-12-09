@@ -30,14 +30,6 @@
               <v-card-text>
                 {{ forum.content }}
               </v-card-text>
-
-              <v-row justify="end">
-                <v-col md="auto">
-                  <v-card-actions>
-                    <v-btn text>Répondre</v-btn>
-                  </v-card-actions>
-                </v-col>
-              </v-row>
             </v-card>
           </v-col>
         </v-row>
@@ -83,7 +75,7 @@
             v-model="typedContent"
             required
           ></v-text-field>
-          <v-btn text style="color:white;">Répondre</v-btn>
+          <v-btn v-on:click="response" text style="color:black;">Répondre</v-btn>
         </div>
 
         <!-- End Wrapper  -->
@@ -92,6 +84,7 @@
   </v-container>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import { forums, users } from "../firebase";
 
 export default {
@@ -101,6 +94,33 @@ export default {
     typedContent: "",
     author: { displayName: "Anonymous", email: "example@example.com" }
   }),
+  methods: {
+    response() {
+      let req = [];
+
+      this.forum.answers.map(data => { 
+        req.push({ author: data.author.id, content: data.content });
+      });
+
+      req.push({ author: this.user.uid, content: this.typedContent });
+
+      forums
+        .doc(this.$route.params.forumId)
+        .update({ answers: req })
+        .then(() => {
+          req.map(data => {
+            users
+              .doc(data.author)
+              .get()
+              .then(a => {
+                data.author = a.data();
+                data.author.id = a.id;
+              });
+            });
+            this.forum.answers = req;
+        });
+    }
+  },
   mounted() {
     forums
       .doc(this.$route.params.forumId)
@@ -127,6 +147,9 @@ export default {
             });
         });
       });
+  },
+  computed: {
+    ...mapGetters(["user"])
   }
 };
 </script>
