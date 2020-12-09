@@ -20,6 +20,24 @@ if (process.env.NODE_ENV === "production") {
       console.log("New content is downloading.");
     },
     updated() {
+      const updateBanner = document.getElementById("update-banner");
+      const updateButton = document.getElementById("update-button");
+      const closeButton = document.getElementById("close-button");
+      let refreshing;
+      navigator.serviceWorker.addEventListener("controllerchange", function() {
+        if (refreshing) return;
+        window.location.reload();
+        refreshing = true;
+      });
+      updateButton.addEventListener("click", async () => {
+        let currentSW = await navigator.serviceWorker.getRegistration();
+        currentSW.waiting.postMessage({ action: "skipWaiting" });
+      });
+      closeButton.addEventListener("click", () => {
+        updateBanner.style.display = "none";
+      });
+      updateBanner.style.display = "block";
+
       console.log("New content is available; please refresh.");
     },
     offline() {

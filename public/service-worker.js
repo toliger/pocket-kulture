@@ -1,6 +1,14 @@
 /* eslint-disable */
 workbox.core.setCacheNameDetails({prefix: "pocket-kulture"});
 
+
+self.addEventListener('message', function ({ data }) {
+  if (data.action === 'skipWaiting') {
+    console.log('skipping')
+    self.skipWaiting()
+  }
+})
+
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
