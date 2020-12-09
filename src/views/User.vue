@@ -13,26 +13,22 @@
             <v-row class="text-left">
               <v-col cols="12">{{ targetUser.displayName }}</v-col>
               <v-col cols="12">25 ans</v-col>
-              <v-col cols="12" v-if="user.uid != $route.params.uid"
-                >
+              <v-col cols="12" v-if="user.uid != $route.params.uid">
                 <v-btn
                   color="primary"
                   dark
-                  v-if="targetUser.followers && targetUser.followers.indexOf(user.uid) === -1"
+                  v-if="
+                    targetUser.followers &&
+                      targetUser.followers.indexOf(user.uid) === -1
+                  "
                   v-on:click="follow"
                 >
                   S'abonner
                 </v-btn>
-                <v-btn
-                  color="primary"
-                  dark
-                  v-else
-                  v-on:click="unfollow"
-                >
+                <v-btn color="primary" dark v-else v-on:click="unfollow">
                   Se désabonner
                 </v-btn>
-                </v-col
-              >
+              </v-col>
             </v-row>
           </v-col>
         </v-row>
@@ -73,7 +69,9 @@ export default {
       users
         .doc(this.$route.params.uid)
         .update({ followers: this.targetUser.followers })
-        .then(() => { });
+        .then(() => {
+          this.$store.dispatch("followUser", this.targetUser.id);
+        });
     },
     unfollow() {
       console.log(this.targetUser.followers);
@@ -86,7 +84,9 @@ export default {
       users
         .doc(this.$route.params.uid)
         .update({ followers: this.targetUser.followers })
-        .then(() => { });
+        .then(() => {
+          this.$store.dispatch("unfollowUser", this.targetUser.id);
+        });
     }
   },
   mounted() {
@@ -96,6 +96,7 @@ export default {
       .then(snapshot => {
         if (snapshot.exists) {
           this.targetUser = snapshot.data();
+          this.targetUser.id = snapshot.id;
         }
       });
   },

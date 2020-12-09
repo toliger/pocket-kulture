@@ -51,7 +51,9 @@
                     class="overline mb-4 user-link"
                     :to="{
                       name: 'UserProfile',
-                      params: { uid: answer.author.id ? answer.author.id : 'oui'  }
+                      params: {
+                        uid: answer.author.id ? answer.author.id : 'oui'
+                      }
                     }"
                   >
                     {{ answer.author.displayName }}
@@ -69,13 +71,15 @@
           </v-col>
         </v-row>
 
-        <div>
+        <div v-if="isUserAuth">
           <v-text-field
             label="Votre réponse"
             v-model="typedContent"
             required
           ></v-text-field>
-          <v-btn v-on:click="response" text style="color:black;">Répondre</v-btn>
+          <v-btn v-on:click="response" text style="color:black;"
+            >Répondre</v-btn
+          >
         </div>
 
         <!-- End Wrapper  -->
@@ -98,7 +102,7 @@ export default {
     response() {
       let req = [];
 
-      this.forum.answers.map(data => { 
+      this.forum.answers.map(data => {
         req.push({ author: data.author.id, content: data.content });
       });
 
@@ -116,8 +120,9 @@ export default {
                 data.author = a.data();
                 data.author.id = a.id;
               });
-            });
-            this.forum.answers = req;
+          });
+          this.forum.answers = req;
+          this.typedContent = "";
         });
     }
   },
@@ -149,7 +154,7 @@ export default {
       });
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user", "isUserAuth"])
   }
 };
 </script>

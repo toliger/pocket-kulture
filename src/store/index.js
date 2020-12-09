@@ -55,6 +55,10 @@ export default new Vuex.Store({
           commit("setError", error.message);
         });
     },
+    logout({ commit }) {
+      commit("setUser", null);
+      commit("setUserData", null);
+    },
     socialLogin({ dispatch, commit }) {
       const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -125,6 +129,23 @@ export default new Vuex.Store({
           break;
       }
       commit("setUserData", currentData);
+    },
+    async followUser({ dispatch, getters }, payload) {
+      const ref = users.doc(getters.uid);
+      await ref.update({
+        following: [...new Set([...getters.userData.following, payload])]
+      });
+      dispatch("fetchUserData");
+    },
+    async unfollowUser({ dispatch, getters }, payload) {
+      const ref = users.doc(getters.uid);
+      const index = getters.userData.following.indexOf(payload);
+      if (index > -1) {
+        let newArr = [...getters.userData.following];
+        newArr.splice(index, 1);
+        await ref.update({ following: newArr });
+        dispatch("fetchUserData");
+      }
     }
   },
   modules: {},

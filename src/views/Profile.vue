@@ -100,6 +100,7 @@ export default {
     logout() {
       auth.signOut().then(
         () => {
+          this.$store.dispatch("logout");
           this.$router.push({ name: "Feed" });
         },
         error => {
@@ -154,13 +155,13 @@ export default {
       }
     },
     nbFollowers() {
-      return this.targetUser && this.targetUser.followers
-        ? this.targetUser.followers.length
+      return this.userData && this.userData.followers
+        ? this.userData.followers.length
         : 0;
     },
     nbFollowing() {
-      return this.targetUser && this.targetUser.following
-        ? this.targetUser.following.length
+      return this.userData && this.userData.following
+        ? this.userData.following.length
         : 0;
     }
   }
