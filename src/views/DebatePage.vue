@@ -104,7 +104,6 @@ export default {
         this.forum = data.data();
         this.forum.id = data.id;
       });
-  },
-
+  }
 };
 </script>

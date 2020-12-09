@@ -86,11 +86,16 @@ export default new Vuex.Store({
         if (snapshot.exists) {
           commit("setUserData", snapshot.data());
         } else {
+          let { displayName, email } = state.user;
           let defaultData = {
+            displayName,
+            email,
             interests: [],
             push: null,
             notify_on_mod: false,
-            notify_on_add: false
+            notify_on_add: false,
+            followers: [],
+            following: []
           };
           commit("setUserData", defaultData);
           await ref.set(defaultData);
