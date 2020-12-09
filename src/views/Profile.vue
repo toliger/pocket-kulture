@@ -84,7 +84,9 @@
             </v-list>
           </v-col>
         </v-row>
-        <button v-on:click="logout">Logout</button>
+        <v-btn color="warning" v-if="isUserAuth" v-on:click="logout"
+          >Logout</v-btn
+        >
       </v-col>
     </v-row>
   </v-container>
@@ -142,7 +144,7 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters(["user", "userData"]),
+    ...mapGetters(["user", "userData", "isUserAuth"]),
     userInterests: {
       get() {
         if (this.userData) {
