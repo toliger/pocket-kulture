@@ -16,15 +16,15 @@
                 ></v-list-item-avatar>
                 <v-list-item-content>
                   <div class="overline mb-4">
-                    {{ subject.author ? subject.author : "Anonymous" }}
+                    {{ forum.author ? forum.author : "Anonymous" }}
                   </div>
                   <v-list-item-title class="headline mb-1">{{
-                    subject.title
+                    forum.title
                   }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-card-text>
-                {{ subject.content }}
+                {{ forum.content }}
               </v-card-text>
 
               <v-row justify="end">
@@ -49,7 +49,7 @@
             <v-card
               class="mx-auto ml-10 mt-5"
               :key="idx"
-              v-for="(answer, idx) in $route.params.placeholder.answers"
+              v-for="(answer, idx) in forum.answers"
             >
               <v-list-item three-line>
                 <v-list-item-avatar
@@ -89,16 +89,22 @@
   </v-container>
 </template>
 <script>
+import { forums } from "../firebase";
+
 export default {
   name: "DebatePage",
   data: () => ({
-    typedContent: ""
+    forum: {}
   }),
-  computed: {
-    subject() {
-      const { author, title, content } = this.$route.params.placeholder;
-      return { author, title, content };
-    }
-  }
+  mounted() {
+    forums
+      .doc(this.$route.params.forumId)
+      .get()
+      .then(data => {
+        this.forum = data.data();
+        this.forum.id = data.id;
+      });
+  },
+
 };
 </script>

@@ -36,5 +36,6 @@ db.enablePersistence().catch(err => {
 
 const topics = db.collection("topics");
 const users = db.collection("users");
+const forums = db.collection("forums");
 
-export { db, auth, topics, users };
+export { db, auth, topics, users, forums };
