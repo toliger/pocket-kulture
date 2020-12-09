@@ -22,12 +22,12 @@
         <v-row justify="center">
           <v-col cols="6" sm="6"
             ><v-btn color="success" dark>
-              {{ placeholder.following }} abonnements
+              {{ nbFollowing }} abonnements
             </v-btn></v-col
           >
           <v-col cols="6" sm="6"
             ><v-btn color="secondary" dark>
-              {{ placeholder.followers }} abonnés
+              {{ nbFollowers }} abonnés
             </v-btn></v-col
           >
         </v-row>
@@ -98,11 +98,14 @@ export default {
   mounted: () => {},
   methods: {
     logout() {
-      auth.signOut().then(() => {
-        this.$router.push({ name: "Feed" });
-      }, (error) => {
-        console.log(error);
-      });
+      auth.signOut().then(
+        () => {
+          this.$router.push({ name: "Feed" });
+        },
+        error => {
+          console.log(error);
+        }
+      );
     }
   },
   data: () => ({
@@ -149,6 +152,16 @@ export default {
       set(value) {
         this.$store.dispatch("updateInterests", value);
       }
+    },
+    nbFollowers() {
+      return this.targetUser && this.targetUser.followers
+        ? this.targetUser.followers.length
+        : 0;
+    },
+    nbFollowing() {
+      return this.targetUser && this.targetUser.following
+        ? this.targetUser.following.length
+        : 0;
     }
   }
 };

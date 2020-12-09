@@ -65,7 +65,7 @@ const routes = [
       import(/* webpackChunkName: "push" */ "../views/PushSettings.vue")
   },
   {
-    path: "/user/:id",
+    path: "/user/:uid",
     name: "UserProfile",
     component: () =>
       import(/* webpackChunkName: "userprofile" */ "../views/User.vue")
