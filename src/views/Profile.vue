@@ -84,17 +84,27 @@
             </v-list>
           </v-col>
         </v-row>
+        <button v-on:click="logout">Logout</button>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { auth } from "../firebase";
 
 export default {
   name: "Profile",
   mounted: () => {},
-  methods: {},
+  methods: {
+    logout() {
+      auth.signOut().then(() => {
+        this.$router.push({ name: "Feed" });
+      }, (error) => {
+        console.log(error);
+      });
+    }
+  },
   data: () => ({
     selectedInterests: [],
     placeholder: {
