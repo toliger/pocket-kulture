@@ -46,7 +46,7 @@ const routes = [
       import(/* webpackChunkName: "debates" */ "../views/Debates.vue")
   },
   {
-    path: "/debate/:id",
+    path: "/debate/:forumId",
     name: "Debate",
     component: () =>
       import(/* webpackChunkName: "debates" */ "../views/DebatePage.vue")

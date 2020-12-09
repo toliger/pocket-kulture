@@ -9,17 +9,19 @@
           <v-col cols="12">
             <v-card class="mx-auto mb-10">
               <v-list-item three-line>
-                <v-list-item-avatar
-                  tile
-                  size="80"
-                  color="grey"
-                >
+                <v-list-item-avatar tile size="80" color="grey">
                   <v-gravatar :email="author.email" />
                 </v-list-item-avatar>
                 <v-list-item-content>
-                  <div class="overline mb-4">
+                  <router-link
+                    class="overline mb-4 user-link"
+                    :to="{
+                      name: 'UserProfile',
+                      params: { uid: author.id }
+                    }"
+                  >
                     {{ author.displayName }}
-                  </div>
+                  </router-link>
                   <v-list-item-title class="headline mb-1">{{
                     forum.title
                   }}</v-list-item-title>
@@ -30,11 +32,6 @@
               </v-card-text>
 
               <v-row justify="end">
-                <v-col md="auto">
-                  <v-card-actions>
-                    <subscribe-button></subscribe-button>
-                  </v-card-actions>
-                </v-col>
                 <v-col md="auto">
                   <v-card-actions>
                     <v-btn text>Répondre</v-btn>
@@ -54,17 +51,19 @@
               v-for="(answer, idx) in forum.answers"
             >
               <v-list-item three-line>
-                <v-list-item-avatar
-                  tile
-                  size="60"
-                  color="grey"
-                >
+                <v-list-item-avatar tile size="60" color="grey">
                   <v-gravatar :email="answer.author.email" />
                 </v-list-item-avatar>
                 <v-list-item-content>
-                  <div class="overline mb-4">
+                  <router-link
+                    class="overline mb-4 user-link"
+                    :to="{
+                      name: 'UserProfile',
+                      params: { uid: answer.author.id }
+                    }"
+                  >
                     {{ answer.author.displayName }}
-                  </div>
+                  </router-link>
                 </v-list-item-content>
               </v-list-item>
               <v-row class="pl-6">
@@ -99,6 +98,7 @@ export default {
   name: "DebatePage",
   data: () => ({
     forum: {},
+    typedContent: "",
     author: { displayName: "Anonymous", email: "example@example.com" }
   }),
   mounted() {
@@ -108,7 +108,7 @@ export default {
       .then(data => {
         this.forum = data.data();
         this.forum.id = data.id;
-        
+
         users
           .doc(this.forum.author)
           .get()
@@ -121,13 +121,18 @@ export default {
           users
             .doc(data.author)
             .get()
-            .then((a) => {
+            .then(a => {
               data.author = a.data();
               data.author.id = a.id;
             });
-        
         });
       });
   }
 };
 </script>
+<style lang="scss" scoped>
+.user-link {
+  text-decoration: none;
+  color: blue;
+}
+</style>
