@@ -17,7 +17,7 @@
                     class="overline mb-4 user-link"
                     :to="{
                       name: 'UserProfile',
-                      params: { uid: author.id }
+                      params: { uid: author.id ? author.id : 'oui' }
                     }"
                   >
                     {{ author.displayName }}
@@ -59,7 +59,7 @@
                     class="overline mb-4 user-link"
                     :to="{
                       name: 'UserProfile',
-                      params: { uid: answer.author.id }
+                      params: { uid: answer.author.id ? answer.author.id : 'oui'  }
                     }"
                   >
                     {{ answer.author.displayName }}
