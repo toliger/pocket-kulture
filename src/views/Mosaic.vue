@@ -48,7 +48,8 @@ export default {
     }
   },
   mounted() {
-    if (this.userInterests != [])
+    console.log(this.userInterests);
+    if (this.userInterests.length > 0)
       topics
         .where("tags", "array-contains-any", this.userInterests)
         .get()
