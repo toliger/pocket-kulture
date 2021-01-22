@@ -22,13 +22,15 @@
                   >
                     {{ author.displayName }}
                   </router-link>
-                  <v-list-item-title class="headline mb-1">{{
-                    forum.title
-                  }}</v-list-item-title>
+                  <v-list-item-title
+                    class="headline"
+                    style="white-space: normal;"
+                    >{{ forum.title }}</v-list-item-title
+                  >
                 </v-list-item-content>
               </v-list-item>
               <v-card-text>
-                {{ forum.content }}
+                <vue-markdown :source="forum.content" />
               </v-card-text>
             </v-card>
           </v-col>
@@ -90,9 +92,13 @@
 <script>
 import { mapGetters } from "vuex";
 import { forums, users } from "../firebase";
+import VueMarkdown from "vue-markdown";
 
 export default {
   name: "DebatePage",
+  components: {
+    VueMarkdown
+  },
   data: () => ({
     forum: {},
     typedContent: "",
@@ -133,6 +139,7 @@ export default {
       .then(data => {
         this.forum = data.data();
         this.forum.id = data.id;
+        this.forum.content = this.forum.content.replace(/ {2,}/g, "\n\n");
 
         users
           .doc(this.forum.author)

@@ -20,13 +20,15 @@
                     <v-img :src="top.src"></v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
-                    <v-list-item-title class="headline mb-1">{{
-                      top.title
-                    }}</v-list-item-title>
+                    <v-list-item-title
+                      class="headline mb-1"
+                      style="white-space: normal;"
+                      >{{ top.title }}</v-list-item-title
+                    >
                   </v-list-item-content>
                 </v-list-item>
                 <v-card-text>
-                  {{ top.descr }}
+                  <vue-markdown :source="top.descr" />
                 </v-card-text>
               </v-card>
             </v-col>
@@ -38,8 +40,12 @@
 </template>
 <script>
 import { topics } from "../firebase";
+import VueMarkdown from "vue-markdown";
 
 export default {
+  components: {
+    VueMarkdown
+  },
   data() {
     return {
       top: {}
@@ -52,6 +58,7 @@ export default {
       .then(data => {
         this.top = data.data();
         this.top.id = data.id;
+        this.top.descr = this.top.descr.replace(/ {2,}/g, "\n\n");
       });
   }
 };
