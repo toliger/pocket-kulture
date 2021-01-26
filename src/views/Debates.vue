@@ -21,26 +21,47 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-btn
+      class="add-btn"
+      color="accent"
+      fab
+      right
+      fixed
+      bottom
+      :to="{ name: 'AddDebate' }"
+      v-if="isUserAuth"
+    >
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
   </v-container>
 </template>
 <script>
 import { forums } from "../firebase";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Debates",
 
   mounted() {
-    forums.get().then(data => {
-      this.forums = data.docs.map(doc => {
-        let res = doc.data();
-        res.id = doc.id;
-        return res;
+    forums
+      .get()
+      .then(data => {
+        this.forums = data.docs.map(doc => {
+          let res = doc.data();
+          res.id = doc.id;
+          return res;
+        });
+      })
+      .catch(err => {
+        console.error("oupsi", err);
       });
-    });
   },
 
   data: () => ({
     forums: []
-  })
+  }),
+  computed: {
+    ...mapGetters(["isUserAuth"])
+  }
 };
 </script>

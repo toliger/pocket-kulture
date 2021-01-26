@@ -67,4 +67,7 @@ export default {
 .v-card__title {
   word-break: break-word !important;
 }
+.add-btn {
+  bottom: 10% !important;
+}
 </style>

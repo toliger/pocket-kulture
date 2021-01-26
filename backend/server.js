@@ -27,8 +27,8 @@ webPush.setVapidDetails(
   "mailto:test@example.com",
   publicVapidKey,
   privateVapidKey
-);
-
+  );
+  
 app.get("/", async (req, res) => {
   const snapshot = await db.collection("users").get();
   snapshot.forEach(doc => {

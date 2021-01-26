@@ -1,32 +1,42 @@
-<template>
+n<template>
   <div id="app">
-    <v-app id="inspire">
-      <v-card max-width="400" class="mx-auto">
-        <v-row dense>
-          <v-col v-for="(item, i) in top" :key="i" cols="12">
-            <v-card @click="topic(item.id)" :color="item.color" dark>
-              <div class="d-flex flex-no-wrap justify-space-between">
-                <div>
-                  <v-card-title class="text-h6">{{ item.title }}</v-card-title>
+    <v-card max-width="400" class="mx-auto">
+      <v-row dense>
+        <v-col v-for="(item, i) in top" :key="i" cols="12">
+          <v-card @click="topic(item.id)" :color="item.color" dark>
+            <div class="d-flex flex-no-wrap justify-space-between">
+              <div>
+                <v-card-title class="text-h6">{{ item.title }}</v-card-title>
 
-                  <v-card-subtitle v-text="item.artist"></v-card-subtitle>
-                </div>
-
-                <v-avatar class="ma-3" size="125" tile>
-                  <v-img :src="item.src"></v-img>
-                </v-avatar>
+                <v-card-subtitle v-text="item.artist"></v-card-subtitle>
               </div>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-card>
-    </v-app>
+
+              <v-avatar class="ma-3" size="125" tile>
+                <v-img :src="item.src"></v-img>
+              </v-avatar>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-card>
+    <v-btn
+      class="add-btn"
+      color="accent"
+      fab
+      right
+      absolute
+      bottom
+      :to="{ name: 'AddTopic' }"
+      v-if="isUserAuth"
+    >
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
   </div>
 </template>
-
 <script>
 // @ is an alias to /src
 import { topics } from "../firebase";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Home",
@@ -47,6 +57,9 @@ export default {
   },
   data: () => ({
     top: []
-  })
+  }),
+  computed: {
+    ...mapGetters(["isUserAuth"])
+  }
 };
 </script>

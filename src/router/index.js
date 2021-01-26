@@ -27,10 +27,16 @@ const routes = [
       import(/* webpackChunkName: "debates" */ "../views/Feed.vue")
   },
   {
-    path: "/topic",
+    path: "/topic/:topicId",
     name: "Topic",
     component: () =>
       import(/* webpackChunkName: "topic" */ "../views/Topic.vue")
+  },
+  {
+    path: "/topic_add",
+    name: "AddTopic",
+    component: () =>
+      import(/* webpackChunkName: "topic" */ "../views/AddTopic.vue")
   },
   {
     path: "/profile",
@@ -44,6 +50,12 @@ const routes = [
     name: "Debates",
     component: () =>
       import(/* webpackChunkName: "debates" */ "../views/Debates.vue")
+  },
+  {
+    path: "/debate_add",
+    name: "AddDebate",
+    component: () =>
+      import(/* webpackChunkName: "debates" */ "../views/AddDebate.vue")
   },
   {
     path: "/debate/:forumId",
