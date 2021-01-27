@@ -40,7 +40,8 @@ export default {
         .add({
           content: this.content,
           title: this.title,
-          author: this.user.uid
+          author: this.user.uid,
+          answers: []
         })
         .then(({ id }) => {
           this.$router.push({ name: "Debate", params: { forumId: id } });

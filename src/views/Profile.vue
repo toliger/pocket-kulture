@@ -21,12 +21,12 @@
         <!-- counters -->
         <v-row justify="center">
           <v-col cols="6" sm="6"
-            ><v-btn color="success" dark>
+            ><v-btn color="success" dark :to="{ name: 'Followings' }">
               {{ nbFollowing }} abonnements
             </v-btn></v-col
           >
           <v-col cols="6" sm="6"
-            ><v-btn color="secondary" dark>
+            ><v-btn color="secondary" dark :to="{ name: 'Followers' }">
               {{ nbFollowers }} abonnés
             </v-btn></v-col
           >

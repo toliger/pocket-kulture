@@ -24,7 +24,7 @@
                   </router-link>
                   <v-list-item-title
                     class="headline"
-                    style="white-space: normal;"
+                    style="white-space: normal"
                     >{{ forum.title }}</v-list-item-title
                   >
                 </v-list-item-content>
@@ -79,7 +79,7 @@
             v-model="typedContent"
             required
           ></v-text-field>
-          <v-btn v-on:click="response" text style="color:black;"
+          <v-btn v-on:click="response" text style="color: black"
             >Répondre</v-btn
           >
         </div>
@@ -139,6 +139,9 @@ export default {
       .then(data => {
         this.forum = data.data();
         this.forum.id = data.id;
+        if (!this.forum.answers) {
+          this.forum.answers = [];
+        }
         this.forum.content = this.forum.content.replace(/ {2,}/g, "\n\n");
 
         users

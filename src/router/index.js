@@ -36,7 +36,7 @@ const routes = [
     path: "/topic_add",
     name: "AddTopic",
     component: () =>
-      import(/* webpackChunkName: "topic" */ "../views/AddTopic.vue")
+      import(/* webpackChunkName: "topic_add" */ "../views/AddTopic.vue")
   },
   {
     path: "/profile",
@@ -55,7 +55,7 @@ const routes = [
     path: "/debate_add",
     name: "AddDebate",
     component: () =>
-      import(/* webpackChunkName: "debates" */ "../views/AddDebate.vue")
+      import(/* webpackChunkName: "debates_add" */ "../views/AddDebate.vue")
   },
   {
     path: "/debate/:forumId",
@@ -79,8 +79,23 @@ const routes = [
   {
     path: "/user/:uid",
     name: "UserProfile",
+    meta: { requiresAuth: true },
     component: () =>
       import(/* webpackChunkName: "userprofile" */ "../views/User.vue")
+  },
+  {
+    path: "/followings",
+    name: "Followings",
+    meta: { requiresAuth: true },
+    component: () =>
+      import(/* webpackChunkName: "followings" */ "../views/UserList.vue")
+  },
+  {
+    path: "/followers",
+    name: "Followers",
+    meta: { requiresAuth: true },
+    component: () =>
+      import(/* webpackChunkName: "followers" */ "../views/UserList.vue")
   }
 ];
 
