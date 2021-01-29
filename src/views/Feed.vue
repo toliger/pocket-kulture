@@ -9,6 +9,14 @@ n<template>
                 <v-card-title class="text-h6">{{ item.title }}</v-card-title>
 
                 <v-card-subtitle v-text="item.artist"></v-card-subtitle>
+                <v-card-actions>
+                  <v-btn icon @click.stop="upvote">
+                    <v-icon>mdi-arrow-up-bold-outline</v-icon>
+                  </v-btn>
+                  <v-btn icon @click.stop="downvote">
+                    <v-icon>mdi-arrow-down-bold-outline</v-icon>
+                  </v-btn>
+                </v-card-actions>
               </div>
 
               <v-avatar class="ma-3" size="125" tile>
@@ -44,6 +52,12 @@ export default {
   methods: {
     topic: function(topicId) {
       this.$router.push({ name: "Topic", params: { topicId } });
+    },
+    upvote() {
+      console.log("upvote");
+    },
+    downvote() {
+      console.log("downvote");
     }
   },
   mounted() {
