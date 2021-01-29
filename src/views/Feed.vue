@@ -63,7 +63,7 @@ n<template>
       color="accent"
       fab
       right
-      absolute
+      fixed
       bottom
       :to="{ name: 'AddTopic' }"
       v-if="isUserAuth"
