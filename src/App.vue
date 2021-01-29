@@ -3,14 +3,7 @@
     <v-main>
       <router-view></router-view>
     </v-main>
-    <v-bottom-navigation
-      app
-      mandatory
-      fixed
-      hide-on-scroll
-      color="primary"
-      id="main-nav"
-    >
+    <v-bottom-navigation app mandatory fixed color="primary" id="main-nav">
       <v-btn @click="goBack" v-if="!isMainLink">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
