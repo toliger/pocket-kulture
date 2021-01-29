@@ -2,8 +2,20 @@ n<template>
   <v-container>
     <v-card max-width="400" class="mx-auto">
       <v-row dense>
+        <v-col cols="12">
+          <v-autocomplete
+            v-model="values"
+            :items="filters"
+            outlined
+            dense
+            chips
+            small-chips
+            label="Filtres"
+            multiple
+          ></v-autocomplete>
+        </v-col>
         <v-col v-for="(item, i) in top" :key="i" cols="12">
-          <v-card @click="topic(item.id)" :color="item.color" dark>
+          <v-card v-if="check_filter(item.id)" @click="topic(item.id)" :color="item.color" dark>
             <div class="d-flex flex-no-wrap justify-space-between">
               <div>
                 <v-card-title class="text-h6">{{ item.title }}</v-card-title>
@@ -86,23 +98,64 @@ export default {
       }
     },
     top_up() {
-	    topics.get().then(data => {
+      topics.get().then(data => {
 	      this.top = data.docs.map(doc => {
 		let res = doc.data();
 		res.id = doc.id;
 		return res;
 	      });
-	    });
-    }
+        this.top.forEach(top => {
+          top.tags.forEach(tag => {
+            if (this.tag_f.indexOf(tag) === -1) {
+              this.tag_f.push(tag);
+            }
+          });
+          if (this.artist_f.indexOf(top.artist) === -1) {
+            this.artist_f.push(top.artist);
+          }
+          if (this.title_f.indexOf(top.title) === -1) {
+            this.title_f.push(top.title);
+          }
+        });
+      });
+    },
+    check_filter(top_id) {
+      if (this.values.length == 0) {
+        return true;
+      }
+      let top_ind = -1;
+      this.top.forEach((ltop, i) => {
+        if (ltop.id == top_id) {
+          top_ind = i;
+          return;
+        } 
+      });
+      let res = false;
+      this.values.forEach(tag => {
+        if (this.top[top_ind].title === tag) { res = true; return; }
+        if (this.top[top_ind].artist === tag) { res = true; return; }
+        this.top[top_ind].tags.forEach(t => {
+          if (t === tag) { res = true; return; }
+        });
+      });
+      return res;
+    } 
   },
   mounted() {
     this.top_up();
   },
   data: () => ({
-    top: []
+    top: [],
+    tag_f: [],
+    artist_f: [],
+    title_f: [],
+    values: []
   }),
   computed: {
-    ...mapGetters(["user", "isUserAuth"])
+    ...mapGetters(["user", "isUserAuth"]),
+    filters() {
+      return [ ...this.tag_f, ...this.artist_f, ...this.title_f ];
+    }
   }
 };
 </script>
