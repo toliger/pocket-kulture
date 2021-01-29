@@ -1,5 +1,5 @@
 n<template>
-  <div id="app">
+  <v-container>
     <v-card max-width="400" class="mx-auto">
       <v-row dense>
         <v-col v-for="(item, i) in top" :key="i" cols="12">
@@ -31,7 +31,7 @@ n<template>
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-  </div>
+  </v-container>
 </template>
 <script>
 // @ is an alias to /src

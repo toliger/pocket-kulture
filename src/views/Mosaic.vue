@@ -1,27 +1,29 @@
 <template>
-  <v-row>
-    <v-col v-for="(item, i) in top" :key="i" cols="2">
-      <v-card class="d-flex">
-        <v-img
-          :src="item.src"
-          aspect-ratio="1"
-          class="grey lighten-2"
-          @click="topic(item.id)"
-          max-height="300"
-          max-width="500"
-        >
-          <template v-slot:placeholder>
-            <v-row fill-height ma-0 align-center justify-center>
-              <v-progress-circular
-                indeterminate
-                color="grey ligthen-5"
-              ></v-progress-circular>
-            </v-row>
-          </template>
-        </v-img>
-      </v-card>
-    </v-col>
-  </v-row>
+  <v-container>
+    <v-row>
+      <v-col v-for="(item, i) in top" :key="i" cols="2">
+        <v-card class="d-flex">
+          <v-img
+            :src="item.src"
+            aspect-ratio="1"
+            class="grey lighten-2"
+            @click="topic(item.id)"
+            max-height="300"
+            max-width="500"
+          >
+            <template v-slot:placeholder>
+              <v-row fill-height ma-0 align-center justify-center>
+                <v-progress-circular
+                  indeterminate
+                  color="grey ligthen-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

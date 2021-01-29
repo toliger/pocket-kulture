@@ -1,57 +1,65 @@
 <template>
-  <div>
-    <h2 class="text-h3">Edition de topic</h2>
-    <v-container>
-      <v-row justify="center">
-        <v-col cols="12">
-          <v-text-field
-            name="title"
-            required
-            v-model="title"
-            label="Titre"
-          ></v-text-field>
-          <v-text-field
-            name="img"
-            v-model="img_url"
-            label="URL de l'image"
-          ></v-text-field>
-          <v-text-field
-            name="video"
-            v-model="video_url"
-            label="URL de la vidéo"
-          ></v-text-field>
-          <v-select
-            v-model="tags"
-            :items="categories"
-            chips
-            deletable-chips
-            multiple
-            label="Tags"
-          >
-            <template v-slot:selection="data">
-              <v-chip
-                v-bind="data.attrs"
-                :input-value="data.selected"
-                :color="data.item.color"
-                @click="data.select"
-              >
-                {{ data.item.text }}
-              </v-chip>
-            </template>
-          </v-select>
-          <v-textarea
-            name="content"
-            required
-            v-model="descr"
-            label="Texte"
-          ></v-textarea>
-        </v-col>
-        <v-col cols="3">
-          <v-btn color="primary" @click="handleSubmit">Envoyer</v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <h2 class="text-h4 overline mb-2 text-center">Edition de topic</h2>
+        <v-divider></v-divider>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-col cols="12">
+        <v-text-field
+          name="title"
+          required
+          v-model="title"
+          label="Titre"
+          outlined
+        ></v-text-field>
+        <v-text-field
+          name="img"
+          v-model="img_url"
+          label="URL de l'image"
+          outlined
+        ></v-text-field>
+        <v-text-field
+          name="video"
+          v-model="video_url"
+          label="URL de la vidéo"
+          outlined
+        ></v-text-field>
+        <v-select
+          v-model="tags"
+          :items="categories"
+          chips
+          deletable-chips
+          multiple
+          label="Tags"
+          outlined
+        >
+          <template v-slot:selection="data">
+            <v-chip
+              v-bind="data.attrs"
+              :input-value="data.selected"
+              :color="data.item.color"
+              @click="data.select"
+            >
+              {{ data.item.text }}
+            </v-chip>
+          </template>
+        </v-select>
+        <v-textarea
+          name="content"
+          required
+          v-model="descr"
+          label="Texte"
+          outlined
+        ></v-textarea>
+      </v-col>
+      <v-col cols="3">
+        <v-btn color="primary" @click="handleSubmit">Envoyer</v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
 import { topics } from "../firebase";
@@ -77,6 +85,7 @@ export default {
   }),
   methods: {
     handleSubmit() {
+      let randomColor = Math.floor(Math.random() * 16777215).toString(16);
       topics
         .add({
           artist: this.user.displayName,
@@ -85,7 +94,8 @@ export default {
           src: this.img_url,
           vsrc: this.video_url,
           author_id: this.user.uid,
-          tags: this.tags
+          tags: this.tags,
+          color: `#${randomColor}`
         })
         .then(({ id }) => {
           this.$router.push({ name: "Topic", params: { topicId: id } });

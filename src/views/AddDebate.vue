@@ -1,28 +1,33 @@
 <template>
-  <div>
-    <h2 class="text-h3">Edition de débat</h2>
-    <v-container>
-      <v-row justify="center">
-        <v-col cols="12">
-          <v-text-field
-            name="title"
-            required
-            v-model="title"
-            label="Titre"
-          ></v-text-field>
-          <v-textarea
-            name="content"
-            required
-            v-model="content"
-            label="Texte"
-          ></v-textarea>
-        </v-col>
-        <v-col cols="3">
-          <v-btn color="primary" @click="handleSubmit">Envoyer</v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <h2 class="text-h4 overline mb-2 text-center">Edition de débat</h2>
+        <v-divider></v-divider>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-col cols="12">
+        <v-text-field
+          name="title"
+          required
+          v-model="title"
+          label="Titre"
+          outlined
+        ></v-text-field>
+        <v-textarea
+          name="content"
+          required
+          v-model="content"
+          label="Texte"
+          outlined
+        ></v-textarea>
+      </v-col>
+      <v-col cols="3">
+        <v-btn color="primary" @click="handleSubmit">Envoyer</v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
 import { forums } from "../firebase";
