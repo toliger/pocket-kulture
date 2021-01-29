@@ -1,11 +1,16 @@
 <template>
   <v-container>
-    <h1>Abonnements</h1>
+    <v-row>
+      <v-col cols="12">
+        <h2 class="text-h4 overline mb-2 text-center">{{ title }}</h2>
+        <v-divider></v-divider>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col cols="12">
         <v-list>
           <v-list-item
-            v-for="(user, idx) in users"
+            v-for="(user, idx) of users"
             :key="idx"
             link
             :to="{ name: 'UserProfile', params: { uid: user.id } }"
@@ -74,8 +79,25 @@ export default {
       }
     }
   },
+  methods: {},
   computed: {
-    ...mapGetters(["userData"])
+    ...mapGetters(["userData"]),
+    title() {
+      let res = "";
+      switch (this.$route.name) {
+        case "Followers": {
+          res = "Abonnés";
+          break;
+        }
+        case "Followings": {
+          res = "Abonnements";
+          break;
+        }
+        default:
+          break;
+      }
+      return res;
+    }
   }
 };
 </script>

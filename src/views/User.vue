@@ -46,19 +46,54 @@
             </v-btn></v-col
           >
         </v-row>
+
+        <!-- topics -->
+        <v-row justify="center">
+          <v-col cols="12">
+            <v-divider></v-divider>
+            <h2 class="text-h5 overline mt-2 mb-2">Posts</h2>
+          </v-col>
+          <v-col cols="12">
+            <v-list>
+              <v-list-item
+                v-for="(item, idx) of [...topics, ...debates]"
+                :key="idx"
+              >
+                <v-list-item-icon>
+                  <v-icon v-if="item.kind == 'debate'"
+                    >mdi-message-reply-text-outline</v-icon
+                  >
+                  <v-icon v-if="item.kind == 'topic'"
+                    >mdi-head-lightbulb-outline</v-icon
+                  >
+                </v-list-item-icon>
+                <v-list-item-content class="text-left">
+                  {{ item.title }}
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-btn color="accent" small :to="getLink(item)">
+                    Voir
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import { users } from "@/firebase";
+import { users, forums, topics } from "@/firebase";
 import { mapGetters } from "vuex";
 
 export default {
   name: "UserPage",
   data: () => ({
-    targetUser: {}
+    targetUser: {},
+    topics: [],
+    debates: []
   }),
   methods: {
     follow() {
@@ -87,6 +122,50 @@ export default {
         .then(() => {
           this.$store.dispatch("unfollowUser", this.targetUser.id);
         });
+    },
+    fetchPosts(user_id) {
+      topics
+        .where("author_id", "==", user_id)
+        .get()
+        .then(data => {
+          data.docs.map(doc => {
+            let id = doc.id;
+            let data = doc.data();
+            let kind = "topic";
+            this.topics = [{ id, kind, ...data }, ...this.topics];
+          });
+        })
+        .catch(err => {
+          console.error(err);
+        });
+
+      forums
+        .where("author", "==", user_id)
+        .get()
+        .then(data => {
+          data.docs.map(doc => {
+            let id = doc.id;
+            let { title } = doc.data();
+            let kind = "debate";
+            this.debates = [{ id, kind, title }, ...this.debates];
+          });
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    getLink({ id, kind }) {
+      switch (kind) {
+        case "topic": {
+          return { name: "Topic", params: { topicId: id } };
+        }
+        case "debate": {
+          return { name: "Debate", params: { forumId: id } };
+        }
+        default: {
+          return { name: "Feed" };
+        }
+      }
     }
   },
   mounted() {
@@ -97,6 +176,7 @@ export default {
         if (snapshot.exists) {
           this.targetUser = snapshot.data();
           this.targetUser.id = snapshot.id;
+          this.fetchPosts(this.targetUser.id);
         }
       });
   },
