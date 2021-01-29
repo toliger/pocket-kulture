@@ -1,59 +1,63 @@
 n<template>
   <v-container>
-    <v-card max-width="400" class="mx-auto">
-      <v-row dense>
-        <v-col cols="12">
-          <v-autocomplete
-            v-model="values"
-            :items="filters"
-            outlined
-            dense
-            chips
-            small-chips
-            label="Filtres"
-            multiple
-          ></v-autocomplete>
-        </v-col>
-        <v-col v-for="(item, i) in top" :key="i" cols="12">
-          <v-card
-            v-if="check_filter(item.id)"
-            @click="topic(item.id)"
-            :color="item.color"
-            dark
-          >
-            <div class="d-flex flex-no-wrap justify-space-between">
-              <div>
-                <v-card-title class="text-h6">{{ item.title }}</v-card-title>
+    <v-row dense>
+      <v-col cols="12">
+        <v-autocomplete
+          v-model="values"
+          :items="filters"
+          outlined
+          dense
+          chips
+          small-chips
+          label="Filtres"
+          multiple
+        ></v-autocomplete>
+      </v-col>
+      <v-col v-for="(item, i) in top" :key="i" cols="12">
+        <v-card
+          v-if="check_filter(item.id)"
+          @click="topic(item.id)"
+          :color="item.color"
+          dark
+        >
+          <div class="d-flex flex-no-wrap justify-space-between">
+            <div>
+              <v-card-title class="text-h6">{{ item.title }}</v-card-title>
 
-                <v-card-subtitle v-text="item.artist"></v-card-subtitle>
-                <v-card-actions>
-                  <v-btn
-                    icon
-                    @click.stop="upvote(item.id)"
-                    v-bind:class="{ no_clickable: !isUserAuth }"
+              <v-card-subtitle v-text="item.artist"></v-card-subtitle>
+              <v-card-actions>
+                <v-btn
+                  icon
+                  @click.stop="upvote(item.id)"
+                  v-bind:class="{ no_clickable: !isUserAuth }"
+                >
+                  <v-icon v-if="hasVote(item.vote.up)"
+                    >mdi-arrow-up-bold</v-icon
                   >
-                    <v-icon>mdi-arrow-up-bold-outline</v-icon>
-                  </v-btn>
-                  <span>{{ item.vote.up.length }}</span>
-                  <v-btn
-                    icon
-                    @click.stop="downvote(item.id)"
-                    v-bind:class="{ no_clickable: !isUserAuth }"
+                  <v-icon v-else>mdi-arrow-up-bold-outline</v-icon>
+                </v-btn>
+                <span>{{ item.vote.up.length }}</span>
+                <v-btn
+                  icon
+                  @click.stop="downvote(item.id)"
+                  v-bind:class="{ no_clickable: !isUserAuth }"
+                >
+                  <v-icon v-if="hasVote(item.vote.down)"
+                    >mdi-arrow-down-bold</v-icon
                   >
-                    <v-icon>mdi-arrow-down-bold-outline</v-icon>
-                  </v-btn>
-                  <span>{{ item.vote.down.length }}</span>
-                </v-card-actions>
-              </div>
-
-              <v-avatar class="ma-3" size="125" tile>
-                <v-img :src="item.src"></v-img>
-              </v-avatar>
+                  <v-icon v-else>mdi-arrow-down-bold-outline</v-icon>
+                </v-btn>
+                <span>{{ item.vote.down.length }}</span>
+              </v-card-actions>
             </div>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-card>
+
+            <v-avatar class="ma-3" size="125" tile>
+              <v-img :src="item.src"></v-img>
+            </v-avatar>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
     <v-btn
       class="add-btn"
       color="accent"
@@ -87,12 +91,19 @@ export default {
           .get()
           .then(data => {
             data = data.data();
-            if (data.vote.up.indexOf(this.user.uid) === -1) {
+            let curpos = data.vote.up.indexOf(this.user.uid);
+            if (curpos === -1) {
               let pos = data.vote.down.indexOf(this.user.uid);
               if (pos !== -1) {
                 data.vote.down.splice(pos, 1);
               }
               data.vote.up.push(this.user.uid);
+              topics
+                .doc(id)
+                .update({ vote: data.vote })
+                .then(() => this.top_up());
+            } else {
+              data.vote.up.splice(curpos, 1);
               topics
                 .doc(id)
                 .update({ vote: data.vote })
@@ -108,12 +119,19 @@ export default {
           .get()
           .then(data => {
             data = data.data();
-            if (data.vote.down.indexOf(this.user.uid) === -1) {
+            let curpos = data.vote.down.indexOf(this.user.uid);
+            if (curpos === -1) {
               let pos = data.vote.up.indexOf(this.user.uid);
               if (pos !== -1) {
                 data.vote.up.splice(pos, 1);
               }
               data.vote.down.push(this.user.uid);
+              topics
+                .doc(id)
+                .update({ vote: data.vote })
+                .then(() => this.top_up());
+            } else {
+              data.vote.down.splice(curpos, 1);
               topics
                 .doc(id)
                 .update({ vote: data.vote })
@@ -173,6 +191,12 @@ export default {
         });
       });
       return res;
+    },
+    hasVote(votes) {
+      if (!this.isUserAuth || !this.user) {
+        return false;
+      }
+      return votes.includes(this.user.uid);
     }
   },
   mounted() {
