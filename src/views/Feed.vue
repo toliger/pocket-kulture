@@ -175,11 +175,7 @@ export default {
       });
       let res = false;
       this.values.forEach(tag => {
-        if (this.top[top_ind].title === tag) {
-          res = true;
-          return;
-        }
-        if (this.top[top_ind].artist === tag) {
+        if (this.top[top_ind].title === tag || this.top[top_ind].artist === tag) {
           res = true;
           return;
         }
