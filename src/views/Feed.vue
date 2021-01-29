@@ -10,12 +10,14 @@ n<template>
 
                 <v-card-subtitle v-text="item.artist"></v-card-subtitle>
                 <v-card-actions>
-                  <v-btn icon @click.stop="upvote">
+                  <v-btn icon @click.stop="upvote(item.id)" v-bind:class="{ no_clickable: !isUserAuth }">
                     <v-icon>mdi-arrow-up-bold-outline</v-icon>
                   </v-btn>
-                  <v-btn icon @click.stop="downvote">
+                  <span>{{ item.vote.up.length }}</span>
+                  <v-btn icon @click.stop="downvote(item.id)" v-bind:class="{ no_clickable: !isUserAuth }">
                     <v-icon>mdi-arrow-down-bold-outline</v-icon>
                   </v-btn>
+                  <span>{{ item.vote.down.length }}</span>
                 </v-card-actions>
               </div>
 
@@ -53,27 +55,59 @@ export default {
     topic: function(topicId) {
       this.$router.push({ name: "Topic", params: { topicId } });
     },
-    upvote() {
-      console.log("upvote");
+    upvote(id) {
+      if (this.isUserAuth) {
+      topics.doc(id).get().then(data => {
+        data = data.data();
+        if (data.vote.up.indexOf(this.user.uid) === -1) {
+          let pos = data.vote.down.indexOf(this.user.uid);
+          if (pos !== -1) {
+            data.vote.down.splice(pos, 1);
+          }
+          data.vote.up.push(this.user.uid);
+          topics.doc(id).update({ vote: data.vote }).then(() => this.top_up()); 
+        }
+      });
+      }
     },
-    downvote() {
-      console.log("downvote");
+    downvote(id) {
+      if (this.isUserAuth) {
+      topics.doc(id).get().then(data => {
+        data = data.data();
+        if (data.vote.down.indexOf(this.user.uid) === -1) {
+          let pos = data.vote.up.indexOf(this.user.uid);
+          if (pos !== -1) {
+            data.vote.up.splice(pos, 1);
+          }
+          data.vote.down.push(this.user.uid);
+          topics.doc(id).update({ vote: data.vote }).then(() => this.top_up()); 
+        }
+      });
+      }
+    },
+    top_up() {
+	    topics.get().then(data => {
+	      this.top = data.docs.map(doc => {
+		let res = doc.data();
+		res.id = doc.id;
+		return res;
+	      });
+	    });
     }
   },
   mounted() {
-    topics.get().then(data => {
-      this.top = data.docs.map(doc => {
-        let res = doc.data();
-        res.id = doc.id;
-        return res;
-      });
-    });
+    this.top_up();
   },
   data: () => ({
     top: []
   }),
   computed: {
-    ...mapGetters(["isUserAuth"])
+    ...mapGetters(["user", "isUserAuth"])
   }
 };
 </script>
+<style>
+.no_clickable {
+  cursor: auto;
+}
+</style>
