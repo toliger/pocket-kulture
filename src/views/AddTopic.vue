@@ -95,6 +95,10 @@ export default {
           vsrc: this.video_url,
           author_id: this.user.uid,
           tags: this.tags,
+          vote: {
+            up: [],
+            down: []
+          },
           color: `#${randomColor}`
         })
         .then(({ id }) => {
