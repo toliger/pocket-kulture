@@ -66,7 +66,7 @@ n<template>
       fixed
       bottom
       :to="{ name: 'AddTopic' }"
-      v-if="isUserAuth"
+      v-if="isUserAuth && !offline"
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -210,7 +210,7 @@ export default {
     values: []
   }),
   computed: {
-    ...mapGetters(["user", "isUserAuth"]),
+    ...mapGetters(["user", "isUserAuth", "offline"]),
     filters() {
       return [...this.tag_f, ...this.artist_f, ...this.title_f];
     }

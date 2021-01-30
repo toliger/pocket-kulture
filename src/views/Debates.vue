@@ -29,7 +29,7 @@
       fixed
       bottom
       :to="{ name: 'AddDebate' }"
-      v-if="isUserAuth"
+      v-if="isUserAuth && !offline"
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -61,7 +61,7 @@ export default {
     forums: []
   }),
   computed: {
-    ...mapGetters(["isUserAuth"])
+    ...mapGetters(["isUserAuth", "offline"])
   }
 };
 </script>

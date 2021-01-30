@@ -14,7 +14,7 @@ Vue.use(Vuex);
 // });
 
 const initState = () => {
-  return { user: null, userData: null, error: null };
+  return { user: null, userData: null, error: null, online: true };
 };
 
 export default new Vuex.Store({
@@ -34,9 +34,15 @@ export default new Vuex.Store({
         return;
       }
       state.userData.interests = payload;
+    },
+    setNetwork(state, mode) {
+      state.online = mode;
     }
   },
   actions: {
+    updateNetwork({ commit }, payload) {
+      commit("setNetwork", !!payload);
+    },
     initUser({ commit, dispatch }) {
       firebase.getCurrentUser().then(u => {
         if (u) {
@@ -166,7 +172,8 @@ export default new Vuex.Store({
       return state.error;
     },
     userData: state => state.userData,
-    userInterests: state => state.userData.interests
+    userInterests: state => state.userData.interests,
+    offline: state => !state.online
   }
   // plugins: [vuexLocal.plugin]
 });

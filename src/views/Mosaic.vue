@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="(item, i) in top" :key="i" cols="2">
+      <v-col v-for="(item, i) in top" :key="i" cols="4" lg="3">
         <v-card class="d-flex">
           <v-img
             :src="item.src"

@@ -6,8 +6,10 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import { auth } from "./firebase";
+import VueOffine from "vue-offline";
 
 Vue.component("v-gravatar", Gravatar);
+Vue.use(VueOffine);
 
 Vue.config.productionTip = false;
 

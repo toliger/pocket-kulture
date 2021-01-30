@@ -1,6 +1,9 @@
 <template>
   <v-app>
     <v-main>
+      <v-alert type="error" v-if="offline">
+        Vous êtes actuellement hors-ligne.
+      </v-alert>
       <router-view></router-view>
     </v-main>
     <v-bottom-navigation app mandatory fixed color="primary" id="main-nav">
@@ -22,6 +25,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "App",
   created() {
@@ -32,6 +36,14 @@ export default {
       return this.$router.go(-1);
     }
   },
+  mounted() {
+    this.$on("online", () => {
+      this.$store.dispatch("updateNetwork", true);
+    });
+    this.$on("offline", () => {
+      this.$store.dispatch("updateNetwork", false);
+    });
+  },
   data: () => ({
     navLinks: [
       { title: "Mon Fil", icon: "mdi-menu", name: "Feed" },
@@ -41,6 +53,7 @@ export default {
     ]
   }),
   computed: {
+    ...mapGetters(["offline"]),
     isMainLink: function() {
       for (let e of this.navLinks) {
         if (this.$route.name == e.name) {

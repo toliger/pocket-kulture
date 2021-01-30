@@ -16,16 +16,21 @@
               <v-col cols="12" v-if="user.uid != $route.params.uid">
                 <v-btn
                   color="primary"
-                  dark
                   v-if="
                     targetUser.followers &&
                       targetUser.followers.indexOf(user.uid) === -1
                   "
                   v-on:click="follow"
+                  :disabled="offline"
                 >
                   S'abonner
                 </v-btn>
-                <v-btn color="primary" dark v-else v-on:click="unfollow">
+                <v-btn
+                  color="primary"
+                  v-else
+                  v-on:click="unfollow"
+                  :disabled="offline"
+                >
                   Se désabonner
                 </v-btn>
               </v-col>
@@ -181,7 +186,7 @@ export default {
       });
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user", "offline"]),
     nbFollowers() {
       return this.targetUser && this.targetUser.followers
         ? this.targetUser.followers.length

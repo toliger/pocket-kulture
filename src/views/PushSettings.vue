@@ -15,13 +15,15 @@
                 @click="handleSwitch"
                 readonly
                 :disabled="
-                  navigatorPush === 'denied' || navigatorPush === 'unsupported'
+                  navigatorPush === 'denied' ||
+                    navigatorPush === 'unsupported' ||
+                    offline
                 "
               ></v-switch>
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
-            <v-btn @click="testPush">Test Push</v-btn>
+            <v-btn @click="testPush" :disabled="offline">Test Push</v-btn>
           </v-list-item>
           <v-list-item>
             <v-list-item-title>
@@ -33,6 +35,7 @@
                 v-model="userData.notify_on_mod"
                 @click="$store.dispatch('updateNotify', 'mod')"
                 readonly
+                :disabled="offline"
               ></v-switch>
             </v-list-item-action>
           </v-list-item>
@@ -46,6 +49,7 @@
                 v-model="userData.notify_on_add"
                 @click="$store.dispatch('updateNotify', 'add')"
                 readonly
+                :disabled="offline"
               ></v-switch>
             </v-list-item-action>
           </v-list-item>
@@ -133,7 +137,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["uid", "userData"]),
+    ...mapGetters(["uid", "userData", "offline"]),
     navigatorPush() {
       // check notification status in browser (and support)
       if (!("Notification" in window && "serviceWorker" in navigator)) {

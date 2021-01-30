@@ -9495,6 +9495,11 @@ vue-markdown@^2.2.4:
     markdown-it-task-lists "^2.0.1"
     markdown-it-toc-and-anchor "^4.1.2"
 
+vue-offline@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/vue-offline/-/vue-offline-2.0.8.tgz#d3a01b3bc5e6bb46fb9fd914443064d837915300"
+  integrity sha512-r9sU3HTnnaWEv6Wgl8RC/mrSRceSE6jIEkLNsNKR1uzCkVizvbG7X2EEU3uMcEsHqOfDLjl1TakUtlXb/xgUWg==
+
 vue-router@^3.2.0:
   version "3.4.9"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.4.9.tgz#c016f42030ae2932f14e4748b39a1d9a0e250e66"

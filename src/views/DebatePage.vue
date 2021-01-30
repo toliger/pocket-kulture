@@ -73,7 +73,7 @@
           </v-col>
         </v-row>
 
-        <div v-if="isUserAuth">
+        <div v-if="isUserAuth && !offline">
           <v-text-field
             label="Votre réponse"
             v-model="typedContent"
@@ -164,7 +164,7 @@ export default {
       });
   },
   computed: {
-    ...mapGetters(["user", "isUserAuth"])
+    ...mapGetters(["user", "isUserAuth", "offline"])
   }
 };
 </script>

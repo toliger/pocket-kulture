@@ -42,6 +42,7 @@
               chips
               deletable-chips
               multiple
+              :disabled="offline"
             >
               <template v-slot:selection="data">
                 <v-chip
@@ -144,7 +145,7 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters(["user", "userData", "isUserAuth"]),
+    ...mapGetters(["user", "userData", "isUserAuth", "offline"]),
     userInterests: {
       get() {
         if (this.userData) {
